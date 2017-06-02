@@ -1,0 +1,26 @@
+\contentsline {section}{\numberline {0}はじめに}{2}
+\contentsline {section}{\numberline {1}ランク2のクラスター代数の定義}{4}
+\contentsline {subsection}{\numberline {1.1}タネ(seed) $\Sigma =({\mathbf x},B)$ の定義}{4}
+\contentsline {subsection}{\numberline {1.2}符号歪対称行列の Cartan 型}{5}
+\contentsline {subsection}{\numberline {1.3}タネの変異 (mutation) $\mu _k(\Sigma )=({\mathbf x}_k,B_k)$ の定義}{5}
+\contentsline {subsection}{\numberline {1.4}ランクが高い場合の変異}{5}
+\contentsline {subsection}{\numberline {1.5}クラスター代数 ${\mathcal A}(\Sigma )$, 上界 ${\mathcal U}(\Sigma )$, 下界 ${\mathcal L}(\Sigma )$ の定義}{7}
+\contentsline {subsection}{\numberline {1.6}Laurent 現象}{8}
+\contentsline {section}{\numberline {2}Laurent 現象の証明}{9}
+\contentsline {subsection}{\numberline {2.1}下界とクラスター代数の一致 ${\mathcal L}(\Sigma )={\mathcal A}(\Sigma )$}{10}
+\contentsline {subsection}{\numberline {2.2}上界と下界の一致 ${\mathcal U}(\Sigma )={\mathcal L}(\Sigma )$}{10}
+\contentsline {section}{\numberline {3}ランク2のクラスター代数の例}{12}
+\contentsline {subsection}{\numberline {3.1}$A_2$ 型の場合}{13}
+\contentsline {subsection}{\numberline {3.2}$B_2$ 型の場合}{14}
+\contentsline {subsection}{\numberline {3.3}$G_2$ 型の場合}{14}
+\contentsline {subsection}{\numberline {3.4}$A^{(1)}_1$ 型の場合}{15}
+\contentsline {subsection}{\numberline {3.5}$A^{(2)}_2$ 型の場合}{16}
+\contentsline {section}{\numberline {4}クラスター変数の分母と概正値実ルートの対応}{17}
+\contentsline {subsection}{\numberline {4.1}概正値実ルート全体の集合}{17}
+\contentsline {subsection}{\numberline {4.2}クラスター変数の分母}{18}
+\contentsline {subsection}{\numberline {4.3}クラスター変数の分母と概正値実ルートの対応}{19}
+\contentsline {section}{\numberline {5}$A^{(1)}_1$ 型クラスター変数の母函数の有限連分数表示}{20}
+\contentsline {subsection}{\numberline {5.1}$A^{(1)}_1$ 型クラスター変数の母函数}{21}
+\contentsline {subsection}{\numberline {5.2}母函数の有限連分数表示と正値 Laurent 現象}{21}
+\contentsline {subsection}{\numberline {5.3}有限連分数表示の証明}{22}
+\contentsline {subsection}{\numberline {5.4}Caldero-Chapoton 公式との関係}{24}

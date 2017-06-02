@@ -1,0 +1,2291 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\TITLE{\bf ランク2のクラスター代数}
+\def\AUTHOR{黒木玄}
+\def\DATE{2010年11月11日更新\thanks{\UPDATES} \quad (2010年8月29日作成開始)}
+\def\UPDATES{2010年08月29日 作成開始. Laurent現象の証明.
+\quad 2010年08月30日 クラスター変数の例.
+\quad 2010年08月31日 $A^{(1)}_1$ 型の場合のクラスター変数の母函数の連分数表示.
+\quad 2010年09月01日 タイポなどの訂正および細かな追記.
+\quad 2010年09月01日 クラスター変数の分母とほとんど正の実ルートの対応.
+\quad 2010年09月02日 「全正値Laurent現象」→「正値Laurent現象」
+\quad 2010年09月02日 「ほとんど正の」→「概正値」
+\quad 2010年09月03日 文献を追加. 大幅に説明を追加.
+\quad 2010年09月08日 タイポの修正および説明の追加. 
+\quad 2010年09月25日 分母関係の記述を一部修正.
+\quad 2010年11月11日 タイポの修正. Laurent現象の証明の節の構成を修正.
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt,twoside]{jarticle}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{amscd}
+\pagestyle{headings}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\topmargin}{-1.7cm}
+\setlength{\textheight}{25.5cm}
+\setlength{\textwidth}{16cm}
+\allowdisplaybreaks
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\N{{\mathbb N}} % natural numbers
+\newcommand\Z{{\mathbb Z}} % rational integers
+%\newcommand\F{{\mathbb F}} % finite field
+\newcommand\Q{{\mathbb Q}} % rational numbers
+\newcommand\R{{\mathbb R}} % real numbers
+\newcommand\C{{\mathbb C}} % complex numbers
+\renewcommand\P{{\mathbb P}} % projective spaces
+\newcommand\Deltare{\Delta^{\mathrm{re}}}
+\newcommand\bra{\langle}
+\newcommand\ket{\rangle}
+\newcommand\ot{\leftarrow}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\A{{\mathcal A}}
+\newcommand\F{{\mathcal F}}
+\renewcommand\L{{\mathcal L}}
+\newcommand\U{{\mathcal U}}
+\newcommand\x{{\mathbf x}}
+\newcommand\eps{\varepsilon}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 定理環境
+%
+%\theoremstyle{plain} % 見出しをボールド、本文で斜体を使う
+\theoremstyle{definition} % 見出しをボールド、本文で斜体を使わない
+\newtheorem{theorem}{定理}
+\newtheorem*{theorem*}{定理} % 番号を付けない
+\newtheorem{prop}[theorem]{命題}
+\newtheorem*{prop*}{命題}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem*{lemma*}{補題}
+\newtheorem{cor}[theorem]{系}
+\newtheorem*{cor*}{系}
+\newtheorem{example}[theorem]{例}
+\newtheorem*{example*}{例}
+\newtheorem{axiom}[theorem]{公理}
+\newtheorem*{axiom*}{公理}
+\newtheorem{problem}[theorem]{問題}
+\newtheorem*{problem*}{問題}
+\newtheorem{summary}[theorem]{要約}
+\newtheorem*{summary*}{要約}
+\newtheorem{guide}[theorem]{参考}
+\newtheorem*{guide*}{参考}
+%
+\theoremstyle{definition} % 見出しをボールド、本文で斜体を使わない
+\newtheorem{definition}[theorem]{定義}
+\newtheorem*{definition*}{定義} % 番号を付けない
+%
+%\theoremstyle{remark} % 見出しをイタリック、本文で斜体を使わない
+\theoremstyle{definition} % 見出しをボールド、本文で斜体を使わない
+\newtheorem{remark}[theorem]{注意}
+\newtheorem*{remark*}{注意}
+%
+\numberwithin{theorem}{section}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+%
+% 引用コマンド
+%
+\newcommand\secref[1]{第\ref{#1}節}
+\newcommand\theoremref[1]{定理\ref{#1}}
+\newcommand\propref[1]{命題\ref{#1}}
+\newcommand\lemmaref[1]{補題\ref{#1}}
+\newcommand\corref[1]{系\ref{#1}}
+\newcommand\exampleref[1]{例\ref{#1}}
+\newcommand\axiomref[1]{公理\ref{#1}}
+\newcommand\problemref[1]{問題\ref{#1}}
+\newcommand\summaryref[1]{要約\ref{#1}}
+\newcommand\guideref[1]{参考\ref{#1}}
+\newcommand\definitionref[1]{定義\ref{#1}}
+\newcommand\remarkref[1]{注意\ref{#1}}
+%
+\newcommand\figureref[1]{図\ref{#1}}
+\newcommand\tableref[1]{表\ref{#1}}
+%
+% \qed を自動で入れない proof 環境を再定義
+%
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+%\newenvironment{Proof}[1][\Proofname]{\par
+  \normalfont
+  \topsep6\p@\@plus6\p@ \trivlist
+  \item[\hskip\labelsep{\bfseries #1}\@addpunct{\bfseries.}]\ignorespaces
+}{%
+  \endtrivlist
+}
+\renewcommand{\proofname}{証明}
+%\newcommand{\Proofname}{証明}
+\makeatother
+%
+% 正方形の \qed を長方形に再定義
+%
+\makeatletter
+\def\BOXSYMBOL{\RIfM@\bgroup\else$\bgroup\aftergroup$\fi
+  \vcenter{\hrule\hbox{\vrule height.85em\kern.6em\vrule}\hrule}\egroup}
+\makeatother
+\newcommand{\BOX}{%
+  \ifmmode\else\leavevmode\unskip\penalty9999\hbox{}\nobreak\hfill\fi
+  \quad\hbox{\BOXSYMBOL}}
+\renewcommand\qed{\BOX}
+%\newcommand\QED{\BOX}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{\TITLE}
+\author{\AUTHOR}
+\date{\DATE}
+\maketitle
+\tableofcontents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{section}{-1} % 最初の節番号を0にする
+
+\section{はじめに}
+
+このノートではランクが2で係数が自明なクラスター代数だけを扱う.
+その場合だけを扱うことには以下のようなメリットがある:
+\begin{itemize}
+
+ \item 定義と証明をずっと簡単に理解できるようになる. 
+  このメリットは大きい%
+\footnote{2010年8月29日にクラスター代数について勉強を書き始めて
+4日で\secref{sec:A(1)1}まで書き上げた.}.
+
+ \item 一般に任意の(一般化された)ルート系もしくは Dynkin 図形に
+  対して定義される数学的対象について感覚を得るためには, 
+  ランクが低い場合について修練を積むのが定跡である.
+  $A_2,B_2,A^{(1)}_1$ 型程度の例
+  を扱う前に一般論を学ぼうとすると直観が利かなくなって苦しくなる場合が多い.
+
+ \item ランクが2で係数が自明であってもクラスター代数は十分に面白い
+  \footnote{ランクを高くしてもクラスター代数を特殊化した ``frieze'' 
+   (簡単な数遊びの一種)の場合のみを扱えばかなり気楽に計算を楽しむことができる.
+   $A_n$ 型の ``frieze'' (Conway-Coxeter frieze) については \cite{N} の
+   始めの方を参照せよ.
+   クラスター代数について知っていれば $A_n$ 型以外の ``frieze'' も
+   容易に定義できる. 
+   他の有限型の frieze pattern を計算して周期性があること
+   を確認するのも非常に楽しい(計算機も使う). 
+   ランク2の場合については\secref{sec:examples}を参照せよ.
+
+   たとえば $E_6$ 型の frieze pattern が欲しければ
+   次のように数字の並べ方のルールを定めればよい:
+   \begin{equation*}
+    \begin{array}{cccccccl}
+      a &   & a' &    & *  &    & *  & \qquad aa' = b + 1    \\
+        & b &    & b' &    & *  &    & \qquad\quad bb' = a'c + 1 \\
+      * &   & c  &    & c' &    & *  & \qquad\quad\quad cc' = b'de  + 1 \\
+        & * &    & d  &    & d' &    & \qquad\quad\quad\quad dd' = c' + 1 \\
+        & * &    & e  &    & e' &    & \qquad\quad\quad\quad ee' = c'f + 1 \\
+      * &   & *  &    & f  &    & f' & \qquad\quad\quad\quad\quad ff' = e' + 1 \\
+    \end{array}
+   \end{equation*}
+   さらに $D_5$ 型の frieze pattern を得るため
+   には $f,f'$ の段をすべて $1$ にすればよい.
+
+   ``frieze'' と quiver の関係を知りたければ, %
+   上の図で右下向きの矢線を $a\to b\to c\to d$, $c\to e\to f$, 
+   $a'\to b'\to c'\to d'$, $c'\to e'\to f'$ に書き込み, 
+   右上向きの矢線を $b\to a'$, $c\to b'$, $d\to c'$, $e\to c'$, $f\to e'$ に
+   書き込んで縦方向のジグザグをじっと眺めてみれば良い.
+   たとえば $a'\to b'\to c'\ot d$ と $c'\ot e\to f$ を合わせた図形
+   は $E_6$ 型 quiver になっている.
+
+   このようにクラスター代数の立場で ``frieze'' は quiver の source のみ
+   (もしくは sink のみ)での変異を繰り返すことだと考えてよい.
+   そのような変異で quiver の型 (対応するGCM) が変化しないことが
+   frieze pattern の定義の基礎になる.
+
+   昔から知られているクラスター代数がらみの数列の例の中
+   には source と sink 以外での変異を必要とするものが存在する. 
+   たとえば初期値 $x_1=\cdots=x_5=1$ と
+   漸化式 $x_kx_{k+5}=x_{k+1}x_{k+4}+x_{k+2}x_{k+3}$ で
+   定義される Somos-5 数列は有名である.
+   Somos-5 数列の $x_k$ はすべて整数になる.
+   Somos-5 数列を生成するために必要な quiver の図
+   は \cite{FM} の Example 6.4, Figure 9 にある.
+   Somos-5 数列を生成するための変異は quiver の頂点の番号を
+   巡回的にずらす形になっているので漸化式の形を変化させずにすむ.
+  }.
+  特に $G_2$ 型と $A^{(1)}_1$ 型のクラスター変数の計算は個人的に非常に楽し
+  かった%
+  \footnote{実際の計算について\secref{sec:examples}と\secref{sec:A(1)1}
+  を参照せよ.}.
+
+ \item 一般のクラスター代数における Laurent 現象の証明は
+  ランクが2で係数が{\bf 非}自明な場合に{\bf ほぼ}帰着する%
+  \footnote{論文 \cite{CA3} の第4節を参照せよ.}. 
+  しかもランクが2のとき係数が非自明な場合は自明な場合の
+  クラスター変数をスケーリングすることによって得られることが
+  知られている%
+  \footnote{論文 \cite{SZ} の第6節を見よ.}.
+  だからクラスター代数の Laurent 現象の証明の本質は
+  ランクが2で係数が自明な場合にあると考えて構わない.
+  以下では面倒なので「係数が自明な」という形容を省略することが多い.
+
+\end{itemize}
+
+このノートを書くきっかけは中島啓氏による京大での数学入門公開講座
+「ディンキン図式をめぐって -- 数学におけるプラトン哲学 」\cite{N} の
+予稿を読んだことである. その予稿の全文は次の通り:
+\begin{quote}
+ 予稿： 紀元前の哲学者プラトンは、正多面体が５種類しかないことを宇宙の基本原
+ 理としたそうです。現代数学のいろいろな分野に、この正多面体がディンキン図形として現れています。一次分数変換のなす有限群、リー環の分類、単純特異点の分類、箙の直既約表現の分類などがその例です。そして、これらの間にすぐには分からないが、隠された深い関係があることが次第に明かにされつつあります。これを数学におけるプラトン哲学と呼んでいます。この講義では、\underline{小学生にも分かると思われるクラスター代数の例}から始めて、線形代数を知っていれば分かると思われる箙の表現論を紹介し、プラトン哲学を少し味わっていただこうと思っています。 
+\end{quote}
+アンダーラインは私が引いた. 私はテキストのPDFファイルをさっそくダウンロードした.
+テキストには Conway-Coxeter frieze%
+\footnote{``frieze'' とは繰り返し模様の装飾のある横壁のことである. 
+世界各国の歴史的建築物には frieze が見られる.
+他に「装飾帯」という意味もある.}
+と呼ばれる\underline{小学生でも分かる}「数遊び」
+を出発点にクラスター代数の解説が書いてあった.
+要するに「小学生でも分かる」という言葉に反応したわけである%
+\footnote{この話には少し嘘が混じっている. 
+実際には私が2010年8月現在研究を進めている量子群の Chevalley 生成元の非整数べ
+きの conjugation 作用と幾何結晶やクラスター代数との関係について
+知りたいと思って勉強を始めたのである. 
+しかし「小学生でも分かる」という言葉を見て笑ってしまったのは事実である.
+このノートは「だ」「である」調の堅めの文体で書いてあるが, 
+心の中は「ぎゃはは！」とか「うひょ！」のように笑いに満ちた状態で書かれている.}.
+そこでまず\underline{小学生でも分かる}「数遊び」の数学的基礎である Laurent 現象%
+\footnote{Laurent 現象は必ずしもクラスター代数だけに限られた現象ではない.
+詳しくは Fomin-Zelevinsky \cite{FZ-Laurent} を参照せよ.}%
+について調べてみた.
+
+クラスター代数とは変異の繰り返しで得られるすべての
+クラスター変数で生成される代数のことである. 
+クラスター変数は変異の定義より出発点の変数の組の有理函数になる.
+実際には変異の繰り返しで得られるすべてのクラスター変数が
+出発点の変数たちの(整数係数) {\bf Laurent 多項式}になっていることがわかる. 
+これが {\bf Laurent 現象}である.
+分子分母でうまく因子が打ち消しあって分母が常に単公式になるのである.
+
+特に出発点の変数たちをすべて $1$ に特殊化すれば
+クラスター変数はすべて整数になる.
+これが Conway-Coxeter frieze で
+整数しか出て来ないことの理由になっているのだ.
+
+\secref{sec:Laurent}では
+ランク2のクラスター代数における Laurent 現象を証明する.
+証明は Berenstein-Fomin-Zelevinsky の ``Cluster Algebras III'' \cite{CA3} 
+の場合の方針にしたがった%
+\footnote{Fomin-Zelevinsky の ``Cluster Algebras I'' \cite{CA1} では別の
+方法で証明されている.}.
+
+実際にはさらに強い結果が成立している.
+すべてのクラスター変数が単なる Laurent 多項式ではなく, 
+{\bf 引き算無し}の Laurent 多項式になっていることが観察される.
+これを{\bf 正値} Laurent 現象と呼ぶことにしよう.
+
+さらに\secref{sec:examples}での具体例の計算によって
+無限型の場合も含めてクラスター変数の分母が
+{\bf 概正値実ルート(almost positive roots)}
+と一対一に対応していることが観察される%
+\footnote{正値実ルートと負の単純ルートを合わせて概正値実ルート
+(ほとんど正の実ルート)と呼ぶ.}.
+
+ランクが2で有限型%
+\footnote{有限型クラスター代数の分類について Fomin-Zelevinsky \cite{CA2}
+を参照せよ.} %
+$A_2,B_2,G_2$ の場合には直接の計算でクラスター変数が
+有限個しか出て来ないことがわかる(\secref{sec:examples}). 
+よってその場合の正値 Laurent 現象や分母と概正値ルートの対応の
+証明は直接の計算によって容易に確かめられる.
+しかしそれ以外の場合の正値性は非自明である%
+\footnote{たとえば $(x^3+1)/(x+1)=x^2-x+1$ なので, 
+引き算を使わずに作られた有理式が多項式になるとき, 
+その多項式が引き算無しの多項式になるとは限らない.
+したがって, 引き算を使わずに作られた有理式が Laurent 多項式になるとき,
+その Laurent 多項式が引き算無しの Laurent 多項式になるとは限らない.}.
+
+\secref{sec:denom}では
+Fomin-Zelevinsky の ``Cluster Algebras I'' \cite{CA1} にしたがって, 
+ランク2のクラスター変数の分母が概正値実ルートと
+一対一に対応していることを証明する.
+
+\secref{sec:A(1)1}では $A^{(1)}_1$ 型の場合
+に正値 Laurent 現象を証明する. 
+ただし, Di Francesco-Kedem \cite{FK1} にしたがって完全に非可換な場合%
+\footnote{変数 $x,y$ が可換であるとは $yx=xy$ が成立することである.
+変数 $x,y$ が $q$ 可換であるとは $yx=qxy$ 型の関係式が成立することである.
+変数 $x,y$ が完全に非可換であるとはそれらのあいだに何も関係式が無い
+ことである. \secref{secA(1)1}では完全に非可換な場合を扱う.}%
+に議論を拡張し, 
+非可換なクラスター変数たちの母函数が有限連分数表示を持つことを示した.
+母函数の有限連分数表示から正値 Laurent 現象はただちに得られる.
+個人的な興味は非可換な場合(特に量子系)にあるので
+いきなり非可換な場合を扱うことにした.
+初めて\secref{sec:A(1)1}を読む人は $xy=yx$ と仮定して読んだ方が
+良いかもしれない.
+\secref{sec:A(1)1}の最後でいわゆる Caldero-Chapton 公式との
+関係についても言及している.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{ランク2のクラスター代数の定義}
+\label{sec:Definition}
+
+\subsection{タネ(seed) $\Sigma=(\x,B)$ の定義}
+
+$\F$ は $\Q$ 上の二変数有理函数体であるとし, 
+$(x_1,x_2)$ は $\F$ の体としての生成元であるとする.
+このノートでは記号の簡単のため $x=x_1$, $y=x_2$ とおく:
+\begin{equation*}
+ \F = \Q(x_1,x_2) = \Q(x,y).
+\end{equation*}
+$x=x_1$, $y=x_2$ の各々を{\bf クラスター変数}と呼び, 
+クラスター変数の組 $\x=(x,y)=(x_1,x_2)$ を{\bf クラスター}と呼ぶ.
+
+$B=[b_{ij}]$ は整数を成分に持つ $2$ 次正方行列であるとし, 
+$b_{11}=b_{22}=0$, $b_{12}b_{21}<0$ であると仮定する.
+記号の簡単のため $b=|b_{12}|$, $c=|b_{21}|$ とおくことが多い.
+\begin{equation*}
+ B =
+ \begin{bmatrix}
+   0 & b \\
+  -c & 0 \\
+ \end{bmatrix}
+ \quad \text{または}\quad
+ B =
+ \begin{bmatrix}
+   0 & -b \\
+   c &  0 \\
+ \end{bmatrix}.
+\end{equation*}
+このような $B$ をランク2
+の{\bf 符号歪対称行列 (sign-skew-symmetric matrix)}と呼ぶ%
+\footnote{「歪」は「わい」と読む. 「歪曲」＝「わいきょく」という言葉があ
+り, 「歪」には「いびつ」「ひずみ」という読み方もある.
+「符号反対称」と訳そうかと思ったが今回は「歪」の字を使ってみた.}.
+
+クラスター $\x=(x,y)=(x_1,x_2)$ と $B=[b_{ij}]$ の
+組 $\Sigma=(\x,B)$ をランク2のクラスター代数の{\bf タネ (seed)}と呼ぶ.
+
+\subsection{符号歪対称行列の Cartan 型}
+
+前節の符号歪対称行列 $B=[b_{ij}]$ に対して一般 Cartan 行列 (GCM) $A=[a_{ij}]$ を
+次のように定める:
+\begin{equation*}
+ a_{ij} =
+ \begin{cases}
+    2       & (i=j)    \\
+  -|b_{ij}| & (i\ne j), \\
+ \end{cases}
+ \quad
+ \text{すなわち}
+ \quad
+ A =
+ \begin{bmatrix}
+   2 & -b \\
+  -c &  2 \\
+ \end{bmatrix}.
+\end{equation*}
+このとき $A$ を $B$ の {\bf Cartan 型 (Cartan type)}と呼ぶ.
+$A$ が有限型(もしくはアフィン型)のGCMであるとき,  
+$B$ は有限型(もしくはアフィン型)であると言う.
+有限型の $A$ は以下の $A_2$, $B_2$, $G_2$ もしくはそれらの転置のどれかになり%
+\footnote{$bc=b_{12}b_{21}<0$ と仮定したので $A_1\times A_1$ 型は出て来ない.}, 
+アフィン型の $A$ は以下の $A_1^{(1)}$, $A_2^{(2)}$ もしくはそれらの
+転置のどれかになる:
+\begin{align*}
+ &
+ A_2=
+ \begin{bmatrix}
+   2  & -1 \\
+  -1 &   2 \\
+ \end{bmatrix}, 
+ \quad
+ B_2=
+ \begin{bmatrix}
+   2  & -1 \\
+  -2 &   2 \\
+ \end{bmatrix}, 
+ \quad
+ G_2=
+ \begin{bmatrix}
+   2 & -1 \\
+  -3 &  2 \\
+ \end{bmatrix}, 
+ \\ &
+ A_1^{(1)}=
+ \begin{bmatrix}
+   2 & -2 \\
+  -2 &  2 \\
+ \end{bmatrix}, 
+ \quad
+ A_2^{(2)}=
+ \begin{bmatrix}
+   2 & -1 \\
+  -4 &  2 \\
+ \end{bmatrix}.
+\end{align*}
+
+\subsection{タネの変異 (mutation) $\mu_k(\Sigma)=(\x_k,B_k)$ の定義}
+
+$\Sigma=(\x,B)$ はランク2のクラスター代数のタネであるとする:
+\begin{align*}
+ &
+ \x=(x,y)=(x_1,x_2), \quad B=[b_{ij}], 
+ \\ &
+ b_{11}=b_{22}=0, \quad b_{12}, b_{21}\in\Z, \quad b_{12}b_{21}<0,
+ \quad b=|b_{12}|, \quad c=|b_{21}|.
+\end{align*}
+
+タネ $\Sigma$ の {\bf $k$ 変異 ($k$-mutation)} $\mu_k(\Sigma)=(\x_k,B_k)$
+($k=1,2$) を以下のように定める:
+\begin{equation*}
+ \x_1 = \left(\frac{y^c+1}{x}, y\right), \quad
+ \x_2 = \left(x, \frac{x^b+1}{y} \right), \quad
+ B_1 = B_2 = -B.
+\end{equation*}
+$b=|b_{12}|$, $c=|b_{21}|$ は変異で不変である.
+
+さらに $\mu_k(\mu_k(\Sigma))=\Sigma$ となることが容易に確かめられる.
+実際 $\x_1=(x',y)$, $\x_2=(x,y')$ とおくと %
+$(y^c+1)/x'=x$, $(x^b+1)/y'=y$ となる.
+よって新たなクラスター変数を生成する可能性のある
+変異の繰り返しは $\mu_1$ と $\mu_2$ を交互にほどこす場合に限る.
+
+\subsection{ランクが高い場合の変異}
+
+この節ではランクが高い場合にも通用する式を紹介する.
+ひとまずランクが2の場合に集中したい人はこの節をとばして読んで欲しい%
+\footnote{ランクが高い場合の変異の定義を初めて見ると, 
+複雑に見えて分かり難いと感じる人が多いと思う.
+このノートではランクが2の場合だけを扱うのだが, 
+ランクが高い場合への接続を滑らかにするためにこの節を挿入することにした.}.
+
+ランクが2のときクラスター $\x=(x_1,x_2)$ の $k$ 変異
+を $\x_k=(x'_1,x'_2)$ と書くとき $x'_i$ は次の条件で特徴付けられる:
+\begin{equation*}
+ x_k x'_k 
+ = \prod_{i\,:\,b_{ik}>0} x_i^{b_{ik}} 
+ + \prod_{i\,:\,b_{ik}<0} x_i^{-b_{ik}},
+ \qquad
+ x'_i = x_i\quad (i\ne k).
+\end{equation*}
+この式はランクの高い一般のクラスター代数でも通用する.  
+
+一般のクラスター代数では $B={b_{ij}}$ の $k$ 変異 $B_k=[b'_{ij}]$ は
+次のように定義される:
+\begin{equation*}
+ b'_{ij} = 
+ \begin{cases}
+  -b_{ij} & (\text{$i=k$ または $j=k$}), \\
+  b_{ij} + \dfrac{|b_{ik}|b_{kj}+b_{ik}|b_{kj}|}{2}
+  & (\text{その他の場合}). \\
+ \end{cases}
+\end{equation*}
+ランク2の場合には ``その他の場合'' の条件と $i=j\ne k$ は同値であり, 
+そのとき $b_{ij}=b_{ii}=0$ より, $b'_{ij}=b_{ij}=0=-b_{ij}$ となる.
+このことより上のランク2の場合の公式 $B_k=-B$ は一般の場合の特殊化
+になっていることがわかる.
+
+一般の場合には $B$ とその変異 $B_k$ に対応する GCM は異なるが, 
+ランク2の場合には対応する GCM は変化しない.
+
+ランク2の場合にはクラスターの変異 $\x_k$ は
+変異によって不変な $b=|b_{12}|$, $c=|b_{21}|$ だけで決まるので, 
+行列 $B$ の変異を考える必要はない.
+一般の場合にはそうではなくなるので話がかなり複雑になる.
+, 
+\begin{remark}
+ 幾何型のクラスター代数を定義する場合には %
+ 整数を成分に持つ行列 $B$ として $m\geqq n$ に対する $(m,n)$ 型行列を取る.
+ $m>n$ ならば $B$ は正方行列にならない.
+ その場合には $i,j=1,\ldots,n$ に対して $b_{ij}=b_{ji}=0$ 
+ または $b_{ij}b_{ji}<0$ が成立していると仮定しておく(符号歪対称性).
+ そして $B$ の Cartan 型 $A=[a_{ij}]$ ($n$ 次正方行列) 
+ を $a_{ii}=2$, $a_{ij}=-|b_{ij}|$ ($i\ne j$) と定める.
+
+ 応用上はより強く $d_ib_{ij}=-d_jb_{ji}$ を満たす正の整数 $d_1,\ldots,d_n$ 
+ が存在すると仮定しておくのが自然である.
+ このとき $B=[b_{ij}]$ は{\bf 歪対称化可能 (skew-symmetrizable)} 
+ であると言う.
+ 歪対称化可能な $B$ の Cartan 型は対称化可能 GCM になる.
+
+ $i=1,\ldots,n$ に対する $b_{ij}$ はクラスター変数 $x_1,\dots,x_n$
+ の変異を定めるために使われ, 
+ $i=n+1,\ldots, m$ に対する $b_{ij}$ は係数 $x_{n+1},\ldots,x_m$ 
+ の変異を定めるために使われる.
+ \qed
+\end{remark}
+
+\begin{remark}
+ランクが2の場合には必要ないが, 
+一般のクラスター代数について学ぶときの助けになるように, 
+符号歪対称行列 $B$ の $k$ 変異 $B_k=[b'_{ij}]$ の他の表示を紹介しておこう.
+
+$\eps=\pm1$ とし $|x|=2\max(0,x)-x$ 
+を $x=\eps b_{ik},-\eps b_{kj}$ の場合を適用することによって
+次が得られる:
+\begin{equation*}
+ b'_{ij} = 
+ \begin{cases}
+  -b_{ij} & (\text{$i=k$ または $j=k$}), \\
+  b_{ij} + \max(0,\eps b_{ik})b_{kj}+b_{ik}\max(0,-\eps b_{kj})
+  & (\text{その他の場合}). \\
+ \end{cases}
+\end{equation*}
+これを行列の積を使って書き直すことに
+よって $B=[b_{ij}]$ と $B_k=[b'_{ij}]$ のランクが等しくなることを示せる.
+
+次の表示も便利である:
+\begin{equation*}
+ b'_{ij} = 
+ \begin{cases}
+  -b_{ij}                & (\text{$i=k$ または $j=k$ でかつ $b_{ij}\ne 0$}), \\
+   b_{ij} + b_{ik}b_{kj} & (\text{$i,j\ne k$ かつ $b_{ik}>0$ かつ $b_{kj}>0$}), \\
+   b_{ij} - b_{ik}b_{kj} & (\text{$i,j\ne k$ かつ $b_{ik}<0$ かつ $b_{kj}<0$}), \\
+   b_{ij}                & (\text{その他の場合}). \\
+ \end{cases}
+\end{equation*}
+ここで ``$i,j\ne k$ かつ''の部分を ``$i,j,k$ が互いに異なり'' に
+置き換えてもよい.
+この表示を使えば $b'_{ij}\ne b_{ij}$ となる場所がはっきりする.
+
+この表示から $B$ が正の整数 $d_i$ によって歪対称化可能であるとき
+その $k$ 変異 $B_k$ も同一の $d_i$ によって歪対称化可能になることも
+すぐにわかる. 実際 $i=k$ または $j=k$ でかつ $b_{ij}\ne 0$ の
+とき $d_ib'_{ij}=-d_ib_{ij}=d_jb_{ji}=-d_jb'_{ji}$ となり, 
+$i,j\ne k$ かつ $b_{ik}b_{kj}>0$ のとき $b_{ik},b_{kj}$ の符号を $\eps=\pm1$
+と書くと
+\begin{equation*}
+ d_ib'_{ij} 
+ =   d_ib_{ij} +\eps d_ib_{ik}b_{kj}
+ = - d_jb_{ji} -\eps d_jb_{ki}b_{kj}
+ = - d_jb_{ji} -\eps d_kb_{jk}b_{ki}
+ = - d_jb'_{ji}
+\end{equation*}
+となり, これら以外の場合には $d_ib'_{ij}=d_ib_{ij}=-d_jb_{ji}=d_jb'_{ji}$
+となる. 
+
+さらに quiver の図を用いて行列 $B$ の変異を理解することもできる.
+正の整数たち $d_i$ を固定し, 
+行列 $B=[b_{ij}]$ は $d_i$ たちによって歪対称化可能であるとする.
+$B$ が $n$ 次正方行列ならば $n$ 個の頂点 $1,2,\ldots,n$ を用意する.
+そしてすべての正の成分 $b_{ij}$ に対して
+頂点 $i$ から頂点 $j$ に向かって $b_{ij}$ 重の矢線を描く.
+こうやって出来上がった図を $B$ に対応する quiver と呼ぶ.
+$B$ の負の成分は正の成分 $b_{ij}$ から $b_{ji}=-d_j^{-1}d_i b_{ij}$ に
+よって得られるので, $B$ に対応する quiver からもとの行列 $B$ が再構成される.
+$B$ の $k$ 変異は quiver のレベルでは以下のように記述される:
+\begin{itemize}
+ \item $i\to k \to j$ と $k$ を経由する矢線の列が存在するとき, 
+ $i$ から $j$ への矢線
+ を $b'_{ij}=b_{ij}+b_{ik}b_{kj}$ 重の矢線に置き換え, 
+ $j$ から $i$ への矢線
+ を $b'_{ji}=b_{ji}-b_{jk}b_{ki}=b_{ji}-d_j^{-1}d_ib_{ik}b_{kj}$ 
+ 重の矢線で置き換える.
+ ただし $b'_{ji}<0$ のとき $j$ から $i$ への $b'_{ji}$ 重の矢線
+ は $i$ から $j$ へ
+ の $b'_{ij}=-d_i^{-1}d_jb'_{ji}=-d_i^{-1}d_jb_{ji}+b_{ik}b_{kj}$ 重の
+ 矢線を意味し, $0$ 重の矢線は矢線が無いことを意味するものとする.
+ \item 頂点 $k$ に繋がっている矢線の向きをすべて反転させる.
+\end{itemize}
+矢線の根の $d_j$ をかけて矢線の先の $d_i$ で割るという操作が
+必要になる点が少し面倒である.
+すべての $d_i$ が $1$ の場合($B$ が歪対称の場合)には
+このやり方での変異の理解はずっと易しくなる.
+$b$ 重の矢線を $b$ 本の矢線だと考えると, $b_{ij}+b_{ik}b_{kj}$ 
+は $i$ から $j$ に直接または $k$ を経由して行く矢線に沿った経路の個数に等しい.
+\qed
+\end{remark}
+
+\begin{example}
+ 歪対称行列 $B$, $B_1$, $B_2$, $B_3$ を次のように定める:
+ \begin{equation*}
+  B =
+  \begin{bmatrix}
+    0 &  1 &  0 \\
+   -1 &  0 &  1 \\
+    0 & -1 &  0 \\
+  \end{bmatrix},
+  \ 
+  B_1 =
+  \begin{bmatrix}
+    0 & -1 &  0 \\
+    1 &  0 &  1 \\
+    0 & -1 &  0 \\
+  \end{bmatrix},
+  \ 
+  B_2 =
+  \begin{bmatrix}
+    0 & -1 &  1 \\
+    1 &  0 &  1 \\
+   -1 & -1 &  0 \\
+  \end{bmatrix},
+  \ 
+  B_3 =
+  \begin{bmatrix}
+    0 &  1 &  0 \\
+   -1 &  0 & -1 \\
+    0 &  1 &  0 \\
+  \end{bmatrix},
+  \ 
+ \end{equation*}
+ $B$ の $k$ 変異は $B_k$ に等しい. $B$, $B_1$, $B_3$ の Cartan 型
+ は $A_3$ だが, $B_2$ の Cartan 型は $A^{(1)}_2$ 型である.
+ \qed
+\end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{クラスター代数 $\A(\Sigma)$, 上界 $\U(\Sigma)$, 下界 $\L(\Sigma)$ の定義}
+
+$\Sigma=(\x,B)$ はランク2のクラスター代数のタネであるとし, 
+前節の記号をそのまま用いる.
+
+タネ $\Sigma$ から出発して変異の繰り返しによって得られる
+すべてのクラスター変数たちで生成される体 $\F$ の部分環を
+タネ $\Sigma$ から生成された{\bf クラスター代数 (cluster algebra)}と呼び, 
+$\A(\Sigma)$ と表わす.
+
+クラスターの変異を $\x_1=(x',y)$, $\x_2=(x,y')$ と表わす:
+\begin{equation*}
+ x' = \frac{y^c + 1}{x}, \qquad y' = \frac{x^b + 1}{y}.
+\end{equation*}
+クラスター代数の{\bf 上界 (upper bound)} $\U(\Sigma)$ と
+{\bf 下界 (lower bound)} $\L(\Sigma)$ を次のように定める:
+\begin{align*}
+ &
+ \U(\Sigma) 
+ = \Z[x^{\pm1},y^{\pm1}]\cap\Z[x'^{\pm1},y^{\pm1}]\cap\Z[x^{\pm1},y'^{\pm1}],
+ \\ &
+ \L(\Sigma) = \Z[x,x',y,y'] \subset \Z[x^{\pm1},y^{\pm1}].
+\end{align*}
+ここで $\Z[x^{\pm1},y^{\pm1}]$ は変数 $x,y$ で生成される Laurent 多項式環
+を表わす.
+
+以上の定義を以下のように言い直すことができる. 
+ランクが2の場合にはすべてのクラスター変数は $1$ 変異と $2$ 変異を
+交互に繰り返すことによって得られる. そこで $x,y$ から $x_n$ ($n\in\Z$) 
+を次のように定める:
+\begin{equation*}
+ x_1 = x, \quad
+ x_2 = y, \quad
+ x_{k+1}x_{k-1} = 
+ \begin{cases}
+  x_k^c+1 & \text{($k$ は偶数)}, \\
+  x_k^b+1 & \text{($k$ は奇数)}. \\
+ \end{cases}
+\end{equation*}
+このとき $x_3=x'$, $x_0=y'$ なので
+\begin{align*}
+ &
+ \U(\Sigma) 
+ = \Z[x_0^{\pm1},x_1^{\pm1}]\cap\Z[x_1^{\pm1},x_2^{\pm1}]\cap\Z[x_2^{\pm1},x_3^{\pm1}],
+ \\ &
+ \L(\Sigma) = \Z[x_0,x_1,x_2,x_3] \subset \Z[x_1^{\pm1},x_2^{\pm1}],
+ \\ &
+ \A(\Sigma) = \Z[\ldots,x_{-2},x_{-1},x_0,x_1,x_2,\ldots].
+\end{align*}
+後でこれらがすべて一致することを示す. 
+
+\subsection{Laurent 現象}
+
+上界と下界とクラスター代数のあいだの関係とLaurent現象について説明しよう.
+
+下界 $\L(\Sigma)$ は高々 $1$ 回の変異で得られるクラスター変数たち
+で生成される環なのでクラスター代数 $\A(\Sigma)$ を含んでいる.
+
+\secref{sec:Laurent}で下界 $\L(\Sigma)$ が変異に関して不変であり, 
+変異の繰り返しで得られるすべてのクラスター変数を含むことを示す.
+
+これより下界 $\L(\Sigma)$ はクラスター代数 $\A(\Sigma)$ に等しいことがわかる.
+
+$\L(\Sigma)\subset\Z[x^{\pm1},y^{\pm1}]$ なので次の定理が得られる.
+
+\begin{theorem}[Laurent現象]
+\label{theorem:Laurent}
+ タネ $\Sigma$ から出発して変異の繰り返しによって得られるすべての
+ クラスター変数はタネ $\Sigma$ に含まれるクラスター変数の
+ Laurent 多項式で表わされる.
+ \qed
+\end{theorem}
+
+変異の繰り返しで得られるすべてのクラスター変数の
+分子分母が奇跡的にうまくキャンセルして分母に $x,y$ の単公式だけが
+残るというのが上の系の主張である.
+実際に具体例を計算してみるとこれはかなり非自明な結果であることがわかる.
+
+さらに\secref{sec:Laurent}で上界 $\U(\Sigma)$ と下界 $\L(\Sigma)$ が
+等しいことも示す. 
+
+以上をまとめると次の定理が得られる.
+
+\begin{theorem}
+\label{theorem:A=L=U}
+ ランク2のクラスター代数と下界と上界は等しい:
+ \[
+   \A(\Sigma)=\L(\Sigma)=\U(\Sigma).
+ \qed
+ \]
+\end{theorem}
+
+クラスター代数 $\A(\Sigma)$ は変異で不変なので次の系もただちに得られる.
+
+\begin{cor}
+ ランク2のクラスター変数の列 $x_n\in\F=\Q(x,y)$ ($n\in\Z$) を
+ \begin{equation*}
+  x_1 = x, \quad
+  x_2 = y, \quad
+  x_{k+1}x_{k-1} = 
+  \begin{cases}
+   x_k^c+1 & \text{($k$ は偶数)}, \\
+   x_k^b+1 & \text{($k$ は奇数)}. \\
+  \end{cases}
+ \end{equation*}
+ と定めると, クラスター代数の定義
+ より $\A(\Sigma)=\Z[\ldots,x_{-2},x_{-1},x_0,x_1,x_2,\ldots]$ となる. 
+ 任意の $m\in\Z$ に対して
+ \begin{equation*}
+  \A(\Sigma)
+  = \Z[x_m^{\pm1},x_{m+1}^{\pm1}]\cap
+    \Z[x_{m+1}^{\pm1},x_{m+2}^{\pm1}]\cap
+    \Z[x_{m+2}^{\pm1},x_{m+3}^{\pm1}]
+  = \Z[x_{m},x_{m+1},x_{m+2},x_{m+3}].
+ \end{equation*}
+ 特に任意のクラスター変数 $x_k$ は任意のクラスター $(x_m,x_{m+1})$ の Laurent 
+ 多項式になっている.
+ \qed
+\end{cor}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Laurent 現象の証明}
+\label{sec:Laurent}
+
+$\Sigma=(\x,B)$ はランク2のクラスター代数のタネであるとする:
+\begin{align*}
+ &
+ \x=(x,y)=(x_1,x_2), \quad B=[b_{ij}], 
+ \\ &
+ b_{11}=b_{22}=0, \quad b_{12}, b_{21}\in\Z, \quad b_{12}b_{21}<0,
+ \quad b=|b_{12}|, \quad c=|b_{21}|.
+\end{align*}
+クラスターの変異を $\x_1=(x',y)$, $\x_2=(x,y')$ と表わす:
+\begin{equation*}
+ x' = \frac{y^c + 1}{x}, \qquad y' = \frac{x^b + 1}{y}.
+\end{equation*}
+さらに $\x_1=(x',y)$ の $2$ 変異を $(x',y'')$ と表わす:
+\begin{equation*}
+ y'' = \frac{x'^b + 1}{y} = \frac{(y^c+1)^b+x^b}{x^b y}.
+\end{equation*}
+このとき上界 $\U(\Sigma)$, $\U(\mu_1(\Sigma))$, 
+下界 $\L(\Sigma)$, $\L(\mu_1(\Sigma))$ は以下のように表わされる:
+\begin{align*}
+ &
+ \U(\Sigma)= 
+ \Z[x^{\pm1},y^{\pm1}]\cap\Z[x'^{\pm1},y^{\pm1}]\cap\Z[x^{\pm1},y'^{\pm1}],
+ \\ &
+ \U(\mu_1(\Sigma))=
+ \Z[x^{\pm1},y^{\pm1}]\cap\Z[x'^{\pm1},y^{\pm1}]\cap\Z[x'^{\pm1},y''^{\pm1}],
+ \\ &
+ \L(\Sigma) = \Z[x,x',y,y'],
+ \\ &
+ \L(\mu_1(\Sigma)) = \Z[x,x',y',y''].
+\end{align*}
+この節の目標はこれらおよびクラスター代数 $\A(\Sigma)$ のすべてが
+互いに等しいことを示すことである.
+
+まず $\L(\mu_1(\Sigma))=\L(\Sigma)$ を示す. 
+$\mu_1(\mu_1(\Sigma))=\Sigma$ より $\subset$ を示せば十分である.
+すなわち $y''\in\Z[x,x',y,y']$ を示せば十分である. 
+これは簡単な計算である.
+
+次に $\U(\Sigma)=\L(\Sigma)$ を示す. 
+そのためには $\U(\Sigma)$ における $x^{-1},y^{-1},x'^{-1},y'^{-1}$ を
+うまく消せることを示せば良い.
+
+以上のふたつの結果を合わせると上の四つの代数が互いにすべて等しいことがわかる.
+
+\subsection{下界とクラスター代数の一致 $\L(\Sigma)=\A(\Sigma)$}
+
+\begin{lemma}[下界の変異不変性]
+\label{lemma:L'=L}
+ 下界 $\L(\Sigma)$ はタネ $\Sigma$ の変異で不変である.
+\end{lemma}
+
+\begin{proof}
+ $\L(\mu_1(\Sigma))=\L(\Sigma)$ を示せば十分である.
+ $\L(\Sigma) = \Z[x,x',y,y']$, $\L(\mu_1(\Sigma)) = \Z[x,x',y',y'']$
+ であり, $\mu_1(\mu_1(\Sigma))=\Sigma$ より $y''\in\Z[x,x',y,y']$ を
+ 示せばよく, 実際以下のようにして示すことができる:
+ \begin{align*}
+  y''
+  &= \frac{x'^b+1}{y}
+  = \frac{x'^b(yy'-x^b)+1}{y}
+  = x'^by' - \frac{(xx')^b-1}{y}
+  \\ &
+  = x'^by - \frac{(y^c+1)^b-1}{y}
+  \in \Z[x,x',y]\subset\Z[x,x',y,y'].
+ \end{align*}
+ 第2の等号で $yy'=x^b+1$ から得られる $1=yy'-x^b$ を用い, 
+ 第4の等号で $xx'=y^c+1$ を用いた.
+ \qed
+\end{proof}
+
+\begin{lemma}[下界とクラスター代数の一致]
+\label{lemma:L=A}
+ 下界とクラスター代数は等しい: $\L(\Sigma)=\A(\Sigma)$.
+\end{lemma}
+
+\begin{proof}
+ 下界 $\L(\Sigma)=\Z[x,x',y,y']$ は高々 $1$ 回の変異で得られるクラスター変数だけ
+ で生成される環なのでクラスター代数 $\A(\Sigma)$ に含まれる.
+ \lemmaref{lemma:L'=L}より $\L(\Sigma)=\Z[x,x',y,y']$ は変異に関して不変である.
+ ゆえに $\L(\Sigma)$ は変異の繰り返しで得られるすべてのクラスター変数
+ を含む. よって $\L(\Sigma)$ はクラスター代数 $\A(\Sigma)$ を含む.
+ よって $\L(\Sigma)=\A(\Sigma)$ である. 
+ \qed
+\end{proof}
+
+\begin{proof}[\theoremref{theorem:Laurent}(Laurent現象)の証明]
+ \lemmaref{lemma:L=A}より $\A(\Sigma)=\L(\Sigma)$ であり, 
+ $\L(\Sigma)\subset\Z[x^{\pm1},y^{\pm1}]$ であるから, 
+ クラスター代数 $\A(\Sigma)$ は Laurent 多項式環 $\Z[x^{\pm1},y^{\pm1}]$
+ に含まれる. これは変異の繰り返しで得られるすべてのクラスター変数が
+ $\Sigma$ に含まれるクラスター変数 $x,y$ の Laurent 多項式に
+ なっていることを意味している.
+ \qed
+\end{proof}
+
+\begin{remark}
+ \secref{sec:A(1)1}で完全に非可換な場合に拡張された $A^{(1)}_1$ 型
+ のクラスター代数の Laurent 現象を証明する(実際にはずっと精密な結果を示す). 
+
+ Berenstein-Ratakh \cite{BR} は完全に非可換な場合に拡張された
+ ランク2のクラスター代数のLaurent現象を上の方法を拡張することに
+ よって一般的に証明している. 証明は易しい.
+
+ 代数幾何的方法(導来圏を使う)を用いて 
+ Usnich \cite{U} は完全に非可換な場合の2変数版Laurent現象を
+ ランク2のクラスター代数よりも一般的な場合について証明している.
+ \qed
+\end{remark}
+
+\subsection{上界と下界の一致 $\U(\Sigma)=\L(\Sigma)$}
+
+\begin{lemma}
+\label{lemma:U=L-1}
+  $\Z[x^{\pm1},y^{\pm1}]\cap\Z[x'^{\pm1},y^{\pm1}]=\Z[x,x',y^{\pm1}]$.
+\end{lemma}
+
+\begin{proof}
+ $x'=(y^c+1)/x$, $x=(y^c+1)/x'$ より $\supset$ は明らかなので, %
+ $\subset$ を証明すればよい.
+ Laurent 多項式 $f\in\Z[x^{\pm},y^{\pm}]$ は
+ \begin{equation*}
+  f = \sum_m c_m(y)x^m, \quad c_m(y)\in\Z[y^{\pm1}], 
+ \quad \text{$m$ は整数を動く}
+ \end{equation*}
+ と一意に表わされる. この式に $x=(y^c+1)/x'$ を
+ 代入して $m$ を $-m$ で置き換えると
+ \begin{equation*}
+  f = \sum_m \frac{c_{-m}(y)}{(y^c+1)^m}x'^m.
+ \end{equation*}
+ よって $f\in\Z[x'^{\pm1},y^{\pm1}]$ と %
+ $m=1,2,\ldots$ に対して $c_{-m}(y)/(y^c+1)^m\in\Z[y^{\pm1}]$ となること
+ は同値である. したがってこの条件が成立するとき
+ \begin{equation*}
+  f = \sum_{m\geqq 0} c_m(y)x^m
+    + \sum_{m>0} \frac{c_{-m}(y)}{(y^c+1)^m}x'^m
+   \in \Z[x,x',y^{\pm1}].
+ \end{equation*}
+ この式の右辺は最初の負の $m$ に対する $x^m$ に $x=(y^c+1)/x'$ を
+ 代入して $m$ を $-m$ で置き換えることによって得られた.
+ これで $\subset$ が示された.
+ \qed
+\end{proof}
+
+\begin{lemma}
+\label{lemma:U=L-2}
+  $\U(\Sigma)=\Z[x,x',y^{\pm1}]\cap\Z[x^{\pm1},y,y']$.
+\end{lemma}
+
+\begin{proof}
+ \lemmaref{lemma:U=L-1}の $x$ と $y$ の立場を取り換えれば
+ 次が成立することもわかる:
+ \begin{equation*}
+  \Z[x^{\pm1},y^{\pm1}]\cap\Z[x^{\pm1},y'^{\pm1}]=\Z[x^{\pm1},y,y'].
+ \end{equation*}
+ $\U(\Sigma)$ の定義と\lemmaref{lemma:U=L-1}より
+ \begin{align*}
+  \U(\Sigma)
+  &=
+  \Z[x^{\pm1},y^{\pm1}]\cap\Z[x'^{\pm1},y^{\pm1}]\cap\Z[x^{\pm1},y'^{\pm1}]
+  \\ &=
+      (\Z[x^{\pm1},y^{\pm1}]\cap\Z[x'^{\pm1},y^{\pm1}])
+  \cap(\Z[x^{\pm1},y^{\pm1}]\cap\Z[x^{\pm1},y'^{\pm1}])
+  \\ &=
+  \Z[x,x',y^{\pm1}]\cap\Z[x^{\pm1},y,y'].
+ \end{align*}
+ \lemmaref{lemma:U=L-1}を第3の等号で使った.
+ \qed
+\end{proof}
+
+\begin{lemma}
+\label{lemma:U=L-3}
+ $\Z[x,x',y^{\pm1}]=\Z[x,x',y,y']+\Z[x,y^{\pm1}]$.
+\end{lemma}
+
+\begin{proof}
+ $y'=(x^b+1)/x$ より $\supset$ は明らかなので $\subset$ を示せばよい.
+ 両辺は $\Z[x]$ 加群であることより, $x'^m y^n$ ($m,n\in\Z$, $m\geqq 0$) が
+ 右辺に含まれることを示せばよい. $m,n\geqq 0$ のとき $x'^m y^n$ が右辺に
+ 含まれるのは明らかなので $M\geqq 0$, $N>0$ のとき $x'^M/y^N$ が
+ 右辺に含まれることを示せば十分である.
+
+ $yy'=x^b+1$ の両辺を $N$ 乗することによって次を得る:
+ \begin{equation*}
+   y^N y'^N = x^b f(x) + 1, \quad f(x)\in\Z[x].
+ \end{equation*}
+ これより
+ \begin{equation*}
+  \frac{1}{y^N} = y'^N - x^b f(x)\frac{1}{y^N}.
+ \end{equation*}
+ 右辺の $1/y^N$ に右辺自身を代入する操作を十分繰り返すことによって次が得られる:
+ \begin{equation*}
+  \frac{1}{y^N} = y'^N g(x) + x^N h(x)\frac{1}{y^N}, \quad g(x), h(x) \in \Z[x].
+ \end{equation*}
+ このとき
+ $x'=(y^c+1)/x$ より
+ \begin{equation*}
+  \frac{x'^M}{y^N}
+  = x'^M y'^N g(x) + (y^c+1)^N h(x)\frac{1}{y^N}
+  \in \Z[x,x',y,y']+\Z[x,y^{\pm1}].
+ \end{equation*}
+ これで $\subset$ が示された. \qed
+\end{proof}
+
+\begin{lemma}
+\label{lemma:U=L-4}
+ $\Z[x,y^{\pm1}]\cap\Z[x^{\pm1},y,y']=\Z[x,y,y']$.
+\end{lemma}
+
+\begin{proof}
+ $y'=(x^b+1)/y$ より $\supset$ は明らかなので, $\subset$ を証明すればよい.
+ $f\in\Z[x,y^{\pm1}]\cap\Z[x^{\pm1},y,y']$ と仮定する. 
+ $f\in\Z[x^{\pm1},y,y]'$ と $yy'=x^b+1$ より $f$ は
+ \begin{equation*}
+  f=\sum_m (a_m+b_m(y)+c_m(y'))x^m, \quad
+  a_m\in\Z, \quad b_m(y)\in y\Z[y], \quad c_m(y')\in y'\Z[y']
+ \end{equation*}
+ と表わされる. $y'=(x^b+1)/y$ を代入すると
+ \begin{equation*}
+  f=\sum_m \left(a_m+b_m(y)+c_m\left(\frac{x^b+1}{y}\right)\right)x^m, 
+  \quad c_m\left(\frac{x^b+1}{y}\right)\in y^{-1}\Z[x,y^{-1}].
+ \end{equation*}
+ $a_m+b_m(y)+c_m(y')\ne 0$ となる最小の $m$ を取る. 
+ このとき $a_m+b_m(y)+c_m(1/y)\ne 0$ となる.
+ よって $f$ を $\Z[y^{\pm1}]$ 係数の $x$ に関する Laurent 多項式と
+ みたときの最低次の項は $(a_m+b_m(y)+c_m(1/y))x^m\ne 0$ となる. 
+ これと $f\in\Z[x,y^{\pm1}]$ より $m\geqq 0$ でなければいけないことがわかる. 
+ したがって
+ \begin{equation*}
+  f=\sum_{m\geqq 0} (a_m+b_m(y)+c_m(y'))x^m \in\Z[x,y,y'].
+ \end{equation*}
+ これで $\subset$ が示された. \qed
+\end{proof}
+
+
+一般に加法群 $M$ の部分群 $A,B,C$ について $A\subset C$ 
+ならば $(A+B)\cap C=A+(B\cap C)$ が成立する(モジュラー法則)%
+\footnote{実際 $a\in A$, $b\in B$, $c\in C$ のとき, %
+$a+b=c$ ならば $a\in A\subset C$ より $b=c-a\in C$ なので $a+b\in A+(B\cap C)$ 
+となり, $b\in C$ のとき $a+b\in (A+B)\cap C$ となる.}.
+
+\begin{lemma}[上界と下界の一致]
+\label{lemma:U=L}
+ 上界と下界は一致する: $\U(\Sigma)=\Z[x,x',y,y']=\L(\Sigma)$.
+\end{lemma}
+
+\begin{proof}
+ $x'=(y^c+1)/x$ なので $\Z[x,x',y,y']\subset\Z[x^{\pm1},y,y']$ である.
+ よって\lemmaref{lemma:U=L-2}, \lemmaref{lemma:U=L-3}, モジュラー法則, 
+ \lemmaref{lemma:U=L-4}を順番に使って以下が示される:
+ \begin{align*}
+  \U(\Sigma)
+  &= \Z[x,x',y^{\pm1}]\cap\Z[x^{\pm1},y,y']
+%  \\ &
+  = (\Z[x,x',y,y']+\Z[x,y^{\pm1}])\cap\Z[x^{\pm1},y,y']
+  \\ &
+  = \Z[x,x',y,y']+(\Z[x,y^{\pm1}]\cap\Z[x^{\pm1},y,y'])
+%  \\ &
+  = \Z[x,x',y,y']+\Z[x,y,y']
+  \\ &
+  = \Z[x,x',y,y'] = \L(\Sigma).
+ \end{align*}
+ これが示したかったことである. \qed
+\end{proof}
+
+\begin{proof}[\theoremref{theorem:A=L=U}の証明]
+ \lemmaref{lemma:L=A}より $\L(\Sigma)=\A(\Sigma)$ である.
+ \lemmaref{lemma:U=L}より $\U(\Sigma)=\L(\Sigma)$ である.
+ したがって $\A(\Sigma)=\L(\Sigma)=\U(\Sigma)$ である.
+ \qed
+\end{proof}
+
+\begin{remark}
+ 以上の証明の方針は Fomin-Zelevinsky \cite{CA3} の第4節に等しい.
+ \qed
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{ランク2のクラスター代数の例}
+\label{sec:examples}
+
+前節の記号をそのまま用いる.
+
+ランクが2の場合には, 
+変異は $1$ 変異 $\mu_1$ と $2$ 変異 $\mu_2$ の二種類しかなく, 
+$\mu_k(\mu_k(\Sigma))=\Sigma$ なので, 
+新たなクラスター変数を生成する可能性のある
+変異の繰り返しは $\mu_1$ と $\mu_2$ を交互にほどこす場合に限る.
+
+クラスター変数 $x_k$ ($k\in\Z$) を次のように定める:
+\begin{equation*}
+ x_1 = x, \quad 
+ x_2 = y, \quad 
+ x_{k+1}x_{k-1} =
+ \begin{cases}
+  x_k^c+1 & (\text{$k$ は偶数}), \\
+  x_k^b+1 & (\text{$k$ は奇数}). \\
+ \end{cases}
+\end{equation*}
+これによって $(x_1,x_2)=(x,y)$ からクラスターたち
+\begin{equation*}
+ \ldots, 
+% (x_{-3},x_{-4}), (x_{-3},x_{-2}), 
+  (x_{-1},x_{-2}), (x_{-1},x_0), (x_1,x_0)
+  (x_1,x_2), (x_3,x_2), (x_3,x_4), (x_5,x_4), %(x_5,x_6),
+  \ldots
+\end{equation*}
+が生成される.
+
+クラスター変数を次のように並べて書くと理解し易い:
+\begin{equation*}
+ \begin{array}{cccccccccccccccccc}
+         &  1     &        &  1     &        &  1  &     &  1  &     &  1  &     &  1  &     &  1  \\
+  x_{-5} &        & x_{-3} &        & x_{-1} &     & x_1 &     & x_3 &     & x_5 &     & x_7 &     \\
+         & x_{-4} &        & x_{-2} &        & x_0 &     & x_2 &     & x_4 &     & x_6 &     & x_8 \\
+   1     &        &  1     &        &  1     &     &  1  &     &  1  &     & 1   &     &  1  &     \\
+ \end{array}
+\end{equation*}
+ここで $x=x_1=y_2$, $y=x_2=y_1$ である.
+この表の各ひし形において次が成立している:
+\begin{align*}
+ &
+ \begin{array}{ccc}
+    & 1 &    \\
+  X &   & X' \\
+    & Y &    \\
+  1 &   & 1  \\
+ \end{array}
+ \ \text{において}\ XX' = Y^c + 1,
+% \\ &
+ \qquad
+ \begin{array}{ccc}
+  1 &   & 1 \\
+    & X &   \\
+  Y &   & Y'\\
+    & 1 &   \\
+ \end{array}
+ \ \text{において}\ YY' = X^b + 1.
+\end{align*}
+以下このように生成されたクラスター変数を書くことにする.
+すべてのクラスター変数 $x_k$ で生成される環を
+クラスター代数と呼ぶのであった.
+Laurent 現象によってすべてのクラスター変数 $x_k$ は $x,y$ の 
+Laurent 多項式になる.
+
+$X$ 型のルート系における正の実ルート全体の集合 $\Deltare_+$ と
+負の単純ルート全体の集合 $-\Pi=\{-\alpha_1,\ldots,-\alpha_n\}$
+の合併集合を $\Deltare_{\geqq-1}$ と書き, 
+その元を{\bf 概正値ルート (almost positive root)} と呼ぶことにする.
+各単純ルート $\alpha_j$ に $s_i$ は次のように作用する:
+\begin{equation*}
+ s_i(\alpha_j) = \alpha_j - a_{ij}\alpha_i.
+\end{equation*}
+ここで $a_{ij}$ は GCM の成分である. 
+たとえば $a_{11}=a_{22}=2$, $a_{12}=-b$, $a_{21}=c$ のとき
+\begin{equation*}
+ s_1(\alpha_2) = b\alpha_1+\alpha_2, \quad
+ s_2(\alpha_1) = \alpha_1+c\alpha_2, \quad
+ s_i(\alpha_i) = -\alpha_i.
+\end{equation*}
+
+\subsection{$A_2$ 型の場合}
+
+$b=1$, $c=1$ のとき $x_{-4},\ldots,x_0,x_1,x_2,x_3,\ldots,x_7$ は
+\begin{equation*}
+ \begin{array}{cccccccccccc}
+  1 &   & 1             &                  &  1            &   & 1 &               &  1               &               & 1 &   \\
+    & y &               & \frac{x+y+1}{xy} &               & x &   & \frac{y+1}{x} &                  & \frac{x+1}{y} &   & y \\
+  x &   & \frac{y+1}{x} &                  & \frac{x+1}{y} &   & y &               & \frac{x+y+1}{xy} &               & x &   \\
+    & 1 &               &  1               &               & 1 &   &  1            &                  &  1            &   & 1 \\
+ \end{array}
+\end{equation*}
+真ん中の $x,y$ が $x_1,x_2$ である. $x_k$ は $k$ について周期 $5$ を持つ.
+すべてのクラスター変数が $x,y$ の引き算無し Laurent 多項式になっている
+(正値 Laurent 現象).
+
+$x_1,\ldots,x_5$ の分母はそれぞれ
+\begin{equation*}
+ x^{-1},\; 
+ y^{-1},\;
+ x,\; 
+ xy,\: 
+ y.
+\end{equation*}
+ただし, $x,y$ の分母を便宜的に $x^{-1},y^{-1}$ とみなした%
+\footnote{Laurent 多項式の分母を正確に定義すれば実際に $x,y$ の分母は
+それぞれ $x^{-1},y^{-1}$ になる.}.
+この約束は次節以降でも同様であるとする.
+$A_2$ 型の概正値ルート全体は
+\begin{equation*}
+ -\alpha_1,\;
+ -\alpha_2,\;
+  \alpha_1,\;
+  \alpha_1+\alpha_2,\;
+  \alpha_2.
+\end{equation*}
+これらは上の分母と一対一に対応している. さらに
+\begin{equation*}
+ 1(\alpha_1) = \alpha_1, \quad
+ s_1(\alpha_2) = \alpha_1+\alpha_2, \quad
+ s_1s_2(\alpha_1) = \alpha_2.
+\end{equation*}
+\begin{equation*}
+\begin{CD}
+ -\alpha_1 
+ \stackrel{s_1}{\longleftrightarrow}
+ \alpha_1
+ \stackrel{s_2}{\longleftrightarrow}
+ \alpha_1+\alpha_2
+ \stackrel{s_1}{\longleftrightarrow}
+ \alpha_2
+ \stackrel{s_2}{\longleftrightarrow}
+ -\alpha_2.
+\end{CD}
+\end{equation*}
+
+\subsection{$B_2$ 型の場合}
+
+$b=1$, $c=2$ のとき $x_k$ は $k$ について周期 $6$ を
+持ち, $x_1,x_2,\ldots,x_6,x_7,x_8$ は
+\begin{equation*}
+ \begin{array}{cccccccccccc}
+    & 1 &                 &  1                 &                           & 1             &   & 1 \\
+  x &   & \frac{y^2+1}{x} &                    & \frac{x^2+2x+y^2+1}{xy^2} &               & x &   \\
+    & y &                 & \frac{x+y^2+1}{xy} &                           & \frac{x+1}{y} &   & y \\
+  1 &   &  1              &                    &  1                        &               & 1 &   \\
+ \end{array}
+\end{equation*}
+すべてのクラスター変数が $x,y$ の引き算無し Laurent 多項式になっている
+(正値 Laurent 現象).
+
+$x_1,\ldots,x_6$ の分母はそれぞれ
+\begin{equation*}
+ x^{-1},\; 
+ y^{-1},\;
+ x,\; 
+ xy,\: 
+ xy^2,\;
+ y.
+\end{equation*}
+$B_2$ 型の概正値ルート全体は
+\begin{equation*}
+ -\alpha_1,\;
+ -\alpha_2,\;
+  \alpha_1,\;
+  \alpha_1+\alpha_2,\;
+  \alpha_1+2\alpha_2,\;
+  \alpha_2.
+\end{equation*}
+これらは上の分母と一対一に対応している. 
+さらに
+\begin{equation*}
+ 1(\alpha_1) = \alpha_1, \quad
+ s_1(\alpha_2) = \alpha_1+\alpha_2, \quad
+ s_1s_2(\alpha_1) = \alpha_1+2\alpha_2, \quad
+ s_1s_2s_1(\alpha_2) = \alpha_2.
+\end{equation*}
+\begin{equation*}
+ -\alpha_1
+ \stackrel{s_1}{\longleftrightarrow}
+ \alpha_1
+ \stackrel{s_2}{\longleftrightarrow}
+ \alpha_1+2\alpha_2
+ \stackrel{s_1}{\circlearrowleft}
+ \qquad
+ \stackrel{s_2}{\circlearrowright}
+ \alpha_1+\alpha_2
+ \stackrel{s_1}{\longleftrightarrow}
+ \alpha_2
+ \stackrel{s_2}{\longleftrightarrow}
+ -\alpha_2
+\end{equation*}
+
+\subsection{$G_2$ 型の場合}
+
+$b=1$, $c=3$ のとき $x_k$ は $k$ について周期 $8$ を
+持ち, $x_1,x_2,\ldots,x_8,x_9,x_{10}$ は
+\begin{equation*}
+ \begin{array}{cccccccccccc}
+    & 1 &                 &  1                 &                                             &  1                        &                                & 1              &   & 1 \\
+  x &   & \frac{y^3+1}{x} &                    & \frac{x^3+3x^2+3xy^3+3x+y^6+2y^3+1}{x^2y^3} &                           & \frac{x^3+3x^2+3x+y^3+1}{xy^3} &                & x &   \\
+    & y &                 & \frac{x+y^3+1}{xy} &                                             & \frac{x^2+2x+y^3+1}{xy^2} &                                & \frac{x+1}{y}  &   & y \\
+  1 &   &  1              &                    &  1                                          &                           &  1                             &                & 1 &   \\
+ \end{array}
+\end{equation*}
+すべてのクラスター変数が $x,y$ の引き算無し Laurent 多項式になっている
+(正値 Laurent 現象).
+
+$x_1,\ldots,x_8$ の分母はそれぞれ
+\begin{equation*}
+ x^{-1},\; 
+ y^{-1},\;
+ x,\; 
+ xy,\: 
+ x^2y^3,\;
+ xy^2,\;
+ xy^3,\;
+ y.
+\end{equation*}
+$G_2$ 型の概正値ルート全体は
+\begin{equation*}
+ -\alpha_1,\;
+ -\alpha_2,\;
+  \alpha_1,\;
+  \alpha_1+\alpha_2,\;
+  2\alpha_1+3\alpha_2,\;
+  \alpha_1+2\alpha_2,\;
+  \alpha_1+3\alpha_2,\;
+  \alpha_2.
+\end{equation*}
+これらは上の分母と一対一に対応している. さらに
+\begin{align*}
+ &
+  1(\alpha_1)=\alpha_1,\quad
+  s_1(\alpha_2)=\alpha_1+\alpha_2,\quad
+  s_1s_2(\alpha_1)=2\alpha_1+3\alpha_2,\quad
+ \\ &
+  s_1s_2s_1(\alpha_2)=\alpha_1+2\alpha_2,\quad
+  s_1s_2s_1s_2(\alpha_1)=\alpha_1+3\alpha_2,\quad
+  s_1s_2s_1s_2s_1(\alpha_2)=\alpha_2.
+\end{align*}
+\begin{equation*}
+ -\alpha
+ \stackrel{s_1}{\longleftrightarrow}
+ \alpha_1
+ \stackrel{s_2}{\longleftrightarrow}
+ \alpha_1+3\alpha_2
+ \stackrel{s_1}{\longleftrightarrow}
+ 2\alpha_1+3\alpha_2
+ \stackrel{s_2}{\circlearrowleft}
+ \quad
+ \stackrel{s_1}{\circlearrowright}
+ \alpha_1+2\alpha_2 
+\stackrel{s_2}{\longleftrightarrow}
+ \alpha_1+\alpha_2
+\stackrel{s_1}{\longleftrightarrow}
+ \alpha_2
+ \stackrel{s_2}{\longleftrightarrow}
+ -\alpha_2
+\end{equation*}
+
+\begin{remark}
+ちなみに $G_2$ 型の単純 Lie 代数の Chevalley 生成元を次のように取れる:
+\begin{alignat*}{2}
+  & e_1 = E_{23} + E_{56}, \quad &
+  & e_2 = E_{12} + E_{34} + 2E_{45} + E_{67}, \\
+  & f_1 = E_{32} + E_{65}, \quad &
+  & f_2 = E_{21} + 2E_{43} + E_{54} + E_{76}, \\
+  & h_1 = E_{22} - E_{33} + E_{55} - E_{66}, \quad &
+  & h_2 = E_{11} - E_{22} + 2E_{33} - 2E_{55} + E_{66} - E_{77}.
+\end{alignat*}
+ここで $E_{ij}$ は7次の行列単位である. 
+$f_i$ が $e_i$ の転置になっていないことに注意せよ. 
+$e_1,e_2$ に関する Serre 関係式
+は $e_1^2 = e_1e_2e_1 = e_2^3 = e_2^2e_1e_2^2 = 0$ からただちに
+得られ, $f_1,f_2$ についても同様である. 
+実際任意の定数 $c_i$ に対して
+\begin{align*}
+ &
+ c_0 e_1^2e_2 + c_1 e_1e_2e_1 + c_2 e_2e_1^2 = 0,
+ \\ &
+ c_0e_2^4e_1+c_1e_2^3e_1e_2+c_2e_2^2e_1^2e_2^2+c_3e_2e_1e_2^3+c_4e_1e_2^4 = 0.
+\end{align*}
+したがって $q$-Serre 関係式が成立することも
+わかるので量子展開環 $U_q(G_2)$ の上三角部分の7次元表現も得られる.
+$G_2$ 型 Lie 群は Cayley の八元数体の虚数部分($7$ 次元の実部分空間)に
+作用している.
+\qed
+\end{remark}
+
+\subsection{$A^{(1)}_1$ 型の場合}
+
+$b=2$, $c=2$ のとき $x_k$ は周期性を
+持たず, $x_k$ の項の個数が爆発的に増えてしまう:
+\begin{align*}
+   x_{-4}&=
+  (x^{10}+5x^8+4x^6y^2+10x^6+3x^4y^4+12x^4y^2+10x^4+2x^2y^6+9x^2y^4+12x^2y^2
+\\ & +5x^2+y^8+4y^6+6y^4+4y^2+1)/(x^4y^5)
+\\ x_{-3}&=
+   (x^8+4x^6+3x^4y^2+6x^4+2x^2y^4+6x^2y^2+4x^2+y^6+3y^4+3y^2+1)/(x^3y^4)
+\\ x_{-2}&=
+   (x^6+3x^4+2x^2y^2+3x^2+y^4+2y^2+1)/(x^2y^3)
+\\ x_{-1}&=
+   (x^4+2x^2+y^2+1)/(xy^2)
+\\ x_0&=
+   (x^2+1)/(y)
+\\ x_1&=
+   x
+\\ x_2&=
+   y
+\\ x_3&=
+   (y^2+1)/(x)
+\\ x_4&=
+   (x^2+y^4+2y^2+1)/(x^2y)
+\\ x_5&=
+   (x^4+2x^2y^2+2x^2+y^6+3y^4+3y^2+1)/(x^3y^2)
+\\ x_6&=
+   (x^6+2x^4y^2+3x^4+3x^2y^4+6x^2y^2+3x^2+y^8+4y^6+6y^4+4y^2+1)/(x^4y^3)
+\\ x_7&=
+   (x^8+2x^6y^2+4x^6+3x^4y^4+9x^4y^2+6x^4+4x^2y^6+12x^2y^4+12x^2y^2+4x^2
+\\ & +y^{10}+5y^8+10y^6+10y^4+5y^2+1)/(x^5y^4)
+\end{align*}
+これらのクラスター変数は $x,y$ の引き算無し Laurent 多項式になっている
+(正値 Laurent 現象).
+$A^{(1)}_1$ 型の正値 Laurent 現象は\secref{sec:A(1)1}で証明される.
+
+$x_{-4},\ldots,x_7$ の分母はそれぞれ
+\begin{equation*}
+ x^4y^5,\;
+ x^3y^4,\;
+ x^2y^3,\;
+ xy^2,\;
+ y,\;
+ x^{-1},\; 
+ y^{-1},\;
+ x,\; 
+ x^2y,\;
+ x^3y^2,\;
+ x^4y^3,\;
+ x^5y^4.
+\end{equation*}
+$x^{-1}$, $y^{-1}$ より右側と左側の分母は
+それぞれ $k=0,1,2,\ldots$ に対する
+\begin{align*}
+ &
+ (k+1)\alpha_1+k\alpha_2=
+ \begin{cases}
+  (s_1s_2)^{k/2}(\alpha_1)        & (\text{$k$ は偶数}), \\
+  (s_1s_2)^{(k-1)/2}s_1(\alpha_2) & (\text{$k$ は奇数}), \\
+ \end{cases}
+ \\ &
+ k\alpha_1+(k+1)\alpha_2=
+ \begin{cases}
+  (s_2s_1)^{k/2}(\alpha_2)        & (\text{$k$ は偶数}), \\
+  (s_2s_1)^{(k-1)/2}s_2(\alpha_1) & (\text{$k$ は奇数}), \\
+ \end{cases}
+\end{align*}
+と一対一に対応している. 
+これらは $A^{(1)}_1$ 型のルート系における正の実ルート全体に一致する.
+
+\subsection{$A^{(2)}_2$ 型の場合}
+
+$b=1$, $c=4$ のとき $x_k$ は周期性を
+持たず, $x_k$ の項の個数が爆発的に増えてしまう:
+\begin{align*}
+   x_{-4}&=
+   (x^5+5x^4+10x^3+3x^2y^4+10x^2+5xy^4+5x+y^8+2y^4+1)/(x^2y^5)
+\\ x_{-3}&=
+   (x^8+8x^7+28x^6+4x^5y^4+56x^5+19x^4y^4+70x^4+36x^3y^4+56x^3+6x^2y^8
+\\ & +34x^2y^4+28x^2+8xy^8+16xy^4+8x+y^12+3y^8+3y^4+1)/(x^3y^8)
+\\ x_{-2}&=
+   (x^3+3x^2+3x+y^4+1)/(xy^3)
+\\ x_{-1}&=
+   (x^4+4x^3+6x^2+4x+y^4+1)/(xy^4)
+\\ x_0&=
+   (x+1)/(y)
+\\ x_1&=
+   x
+\\ x_2&=
+   y
+\\ x_3&=
+   (y^4+1)/(x)
+\\ x_4&=
+   (x+y^4+1)/(xy)
+\\ x_5&=
+   (x^4+4x^3+6x^2y^4+6x^2+4xy^8+8xy^4+4x+y^12+3y^8+3y^4+1)/(x^3y^4)
+\\ x_6&=
+   (x^3+3x^2+3xy^4+3x+y^8+2y^4+1)/(x^2y^3)
+\\ x_7&=
+   (x^8+8x^7+6x^6y^4+28x^6+36x^5y^4+56x^5+19x^4y^8+89x^4y^4+70x^4+4x^3y^{12}
+\\ & +64x^3y^8+116x^3y^4+56x^3+28x^2y^{12}+84x^2y^8+84x^2y^4+28x^2+8xy^{16}+32xy^{12}+48xy^8
+\\ & +32xy^4+8x+y^{20}+5y^16+10y^{12}+10y^8+5y^4+1)/(x^5y^8)
+\end{align*}
+これらのクラスター変数は $x,y$ の引き算無し Laurent 多項式になっている
+(正値 Laurent 現象).
+
+$x_{-4},\ldots,x_7$ の分母はそれぞれ
+\begin{equation*}
+ x^2y^5,\;
+ x^3y^8,\;
+ xy^3,\;
+ xy^4,\;
+ y,\;
+ x^{-1},\; 
+ y^{-1},\;
+ x,\; 
+ xy,\: 
+ x^3y^4,\;
+ x^2y^3,\;
+ x^5y^8.
+\end{equation*}
+$x^{-1}$, $y^{-1}$ より右側と左側の分母は
+それぞれ $k=0,1,2,\ldots$ に対する
+\begin{align*}
+ &
+ \begin{cases}
+  (2k+1)\alpha_1+    4k\alpha_2 = (s_1s_2)^k(\alpha_1), & \\
+   (k+1)\alpha_1+(2k+1)\alpha_2 = (s_1s_2)^ks_1(\alpha_2), & \\
+ \end{cases}
+ \\ &
+ \begin{cases}
+       k\alpha_1+(2k+1)\alpha_2 = (s_2s_1)^k(\alpha_2),    & \\
+  (2k+1)\alpha_1+(4k+4)\alpha_2 = (s_2s_1)^ks_2(\alpha_1) & \\
+ \end{cases}
+\end{align*}
+と一対一に対応している. 
+
+\begin{remark}
+ちなみに $A^{(2)}_2$ 型のアフィン Lie 代数
+の Chevalley 生成元を次のように取れる:
+\begin{align*}
+ &
+ e_1 = z E_{31}, \quad
+ f_1 = z^{-1}E_{13}, \quad
+ h_1 = c/2-(E_{11}-E_{33}), \quad
+ \\ &
+ e_2 = \sqrt{2}(E_{12}+E_{23}), \quad
+ f_2 = \sqrt{2}(E_{21}+E_{32}), \quad
+ h_2 = 2(E_{11}-E_{33}) = c - 2h_1.
+\end{align*}
+ここで $E_{ij}$ は3次の行列単位であり, $c$ は中心元である.
+$e_1,e_2$ に関する Serre 関係式は $e_1^2=e_1e_2e_1=e_2^3=0$ から
+ただちに得られ, $f_1,f_2$ についても同様である.
+実際任意の定数 $c_i$ に対して
+\begin{align*}
+ &
+ c_0 e_1^2e_2 + c_1 e_1e_2e_1 + c_2 e_2e_1^2 = 0,
+ \\ &
+ c_0e_2^5e_1+c_1e_2^4e_1e_2+c_2e_2^3e_1^2e_2^2+c_3e_2^2e_1e_2^3+c_4e_2e_1e_2^4+c_5e_1e_2^5= 0.
+\end{align*}
+したがって $q$-Serre 関係式が成立することもわかるので, 
+$c=0$, $z\in\C(q)^\times$ と特殊化することによって
+アフィン量子展開環 $U'_q(A^{(2)}_2)$ の3次元表現も得られる.
+\qed
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{クラスター変数の分母と概正値実ルートの対応}
+\label{sec:denom}
+
+この節では Fomin-Zelevinsky の ``Cluster Algebras I'' \cite{CA1} の
+定理6.1(の係数が自明な場合)について解説する.
+そこではランクが2のクラスター代数の分母と実ルートの対応が示されている.
+$b,c$ は正の整数であるとする.
+
+\subsection{概正値実ルート全体の集合}
+
+GCM $A=[a_{ij}]$ を $a_{11}=a_{22}=2$, $a_{12}=-b$, $a_{21}=-c$ と定める
+GCM $A$ に対応する単純ルート系を $\Pi=\{\alpha_1,\alpha_2\}$ と表わし, 
+ルート系を $\Delta\subset\Z\alpha_1\oplus\Z\alpha_2$ と表わす. 
+正のルート全体の集合 $\Delta_+$ を
+\begin{equation*}
+ \Delta_+ = \Delta\cap(\Z_{\geqq0}\alpha_1+\Z_{\geqq0}\alpha_2)
+\end{equation*}
+と定める. $\Delta=\Delta_+\sqcup(-\Delta_+)$ が成立している.
+
+ルート系 $\Delta$ には Weyl 群 $W=\bra s_1,s_2\ket$ 
+が $s_i(\alpha_j)=\alpha_j-a_{ij}\alpha_i$ によって作用している:
+\begin{equation*}
+  s_1(\alpha_2)=c\alpha_1+\alpha_2 \quad
+  s_2(\alpha_1)=\alpha_1+b\alpha_2, \quad
+  s_i(\alpha_i)=-\alpha_i.
+\end{equation*}
+単純ルートの $W$ 軌道の元を実ルートと呼び, 
+それら全体の集合を $\Deltare$ と表わす.
+正の実ルート全体の集合を $\Deltare_+=\Delta_+\cap\Deltare$ と書く.
+
+$m\in\Z$ に対して $m$ と隅奇が等しい $1,2$ のどちらかを $[m]$ と
+表わし, $k\geqq 0$ に対して $w_1(k),w_2(k)\in W$ を次のように定める:
+\begin{equation*}
+ w_1(k)
+ =s_{[1]}s_{[2]}\cdots s_{[k]}
+ =\underbrace{s_1s_2s_1s_2\cdots}_{k}, 
+ \quad
+ w_2(k)
+ =s_{[2]}s_{[3]}\cdots s_{[k+1]}
+ =\underbrace{s_2s_1s_2s_1\cdots}_{k}.
+\end{equation*}
+$bc\leqq 3$ のとき, $bc=1,2,3$ のそれぞれ場合に
+対して Coxeter 数 $h$ を $h=3,4,6$ と定める.
+
+正の実ルート全体の集合は以下のように記述される.
+
+有限型の場合($bc\leqq 3$). $\Deltare_+ = \Delta_+$ であり, 
+正のルートは次のように一意に表わされる:
+\begin{equation*}
+  w_1(k)\alpha_{[k+1]}, \quad 0\leqq k< h.
+\end{equation*}
+有限型の場合には $w_1(h)\alpha_{[h+1]}$ が負のルートになることに注意せよ.
+
+無限型の場合($bc>3$). $\Deltare_+\ne\Delta_+$ であり, 
+正の実ルートは次のどちらか片方で一意に表わされる:
+\begin{equation*}
+ w_1(k)\alpha_{[k+1]}, \quad
+ w_2(k)\alpha_{[k+2]}, \quad
+ k\in\Z.
+\end{equation*}
+
+正値実ルートと負の単純ルートの両方を
+{\bf 概正値実ルート (almost positive root)} と呼び, 
+それら全体の集を $\Deltare_{\geqq-1}=\Deltare_+\sqcup(-\Pi)$
+と書くことにする.
+
+\subsection{クラスター変数の分母}
+
+クラスター変数 $x_k$ ($k\in\Z$) を次のように定める:
+\begin{equation*}
+ x_1 = x, \quad 
+ x_2 = y, \quad 
+ x_k =
+ \begin{cases}
+  \dfrac{x_{k-1}^c+1}{x_{k-2}} & (\text{$k$ は奇数}), \\
+  \dfrac{x_{k-1}^b+1}{x_{k-2}} & (\text{$k$ は偶数}), \\
+ \end{cases}
+\end{equation*}
+Laurent 現象 (\theoremref{theorem:Laurent}) より, 
+各 $x_k$ は $x,y$ の ($0$ でない) Laurent 多項式なので
+次の形で一意に表わされる%
+\footnote{一般に $0$ でない体 $K$ 上の有理函数 $f(x,y)\in K(x,y)$ は
+次の形で一意に表わされる:
+\begin{equation*}
+ f(x,y) = \frac{N(x,y)}{x^{d_1}y^{d_2}}, \quad
+ d_i\in\Z, \quad
+ \text{$N(x,y)$ は $x$ でも $y$ でも割り切れない多項式の比}.
+\end{equation*}
+}:
+\begin{equation*}
+ x_k = \frac{N_k(x,y)}{x^{d_1(k)}y^{d_2(k)}}, \quad
+ d_i(k)\in\Z, \quad
+ \text{$N_k(x,y)$ は $x$ でも $y$ でも割り切れない多項式}.
+\end{equation*}
+このとき $x^{d_1(k)}y^{d_2(k)}$ をクラスター変数 $x_k$ の{\bf 分母}と呼ぶ.
+
+たとえば $x$, $y$ の分母はそれぞれ $x^{-1}$, $y^{-1}$ であるから, 
+$x_1=x$, $x_2=y$ より $(d_1(1),d_2(1))=(-1,0)$, $N_1(x,y)=1$, 
+$(d_1(2),d_2(2))=(0,-1)$, $N_2(x,y)=1$ となる.
+
+\subsection{クラスター変数の分母と概正値実ルートの対応}
+
+次の定理は係数が自明な場合の \cite{CA1} 定理6.1そのものである.
+証明も完全にそのコピーである.
+
+\begin{theorem}[クラスター変数の分母の記述]
+ 以上の設定のもとで,
+ クラスター変数 $x_k$ の分母 $x^{d_1(k)}y^{d_2(k)}$ に対して
+ $\delta(k)$ を次のように定める.
+ \begin{equation*}
+  \delta(k) = d_1(k)\alpha_1 + d_2(k)\alpha_2.
+ \end{equation*}
+ このとき $\delta(k)$ は概正値実ルートになる:
+ $\delta(k)\in\Deltare_{\geqq-1}=\Deltare_+\sqcup(-\Pi)$.
+ クラスター変数 $x_k$ の分母に対して $\delta(k)$ を
+ 対応させることによって, 
+ クラスター変数の分母全体と概正値実ルート全体のあいだに
+ 一対一の対応が定まる.
+ より正確には以下が成立している:
+ \begin{enumerate}
+  \item[(1)] 有限型の場合:
+   \begin{equation*}
+    \delta(k+3) = w_1(k)\alpha_{[k+1]} \quad (0\leqq k< h).
+   \end{equation*}
+   さらに $x_{k+h+2}=x_k$ が成立している.
+  \item[(2)] 無限型の場合:
+  \begin{equation*}
+   \delta(k+3) = w_1(k)\alpha_{[k+1]}, \quad
+   \delta(-k)  = w_2(k)\alpha_{[k+2]}  \quad
+   \quad (k\geqq 0).
+  \end{equation*}
+  特に $x_k$ はすべて互いに異なる分母を持つ.
+ \qed
+ \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+ 有限型の場合は\secref{sec:examples}での詳しい計算によって
+ (1)が成立することはすでにわかっている. 
+ よって無限型の場合だけを示せば十分である.
+
+ $\delta=d_1\alpha_1+d_2\alpha_2$ ($d_1,d_2\in\Z$) に
+ 対して $\delta_+$ を
+ \begin{equation*}
+  \delta_+ = \max(d_1,0)\alpha_1 + \max(d_2,0)\alpha_2
+ \end{equation*}
+ と定める. クラスター変数を定める漸化式
+ \begin{equation*}
+   x_{n+1}x_{n-1} =
+  \begin{cases}
+   x_n^c+1 & (\text{$k$ は奇数}), \\
+   x_n^b+1 & (\text{$k$ は偶数}).
+  \end{cases}
+ \end{equation*}
+ から次が導かれる:
+ \begin{equation*}
+  \delta(k+1)+\delta(k-1) = 
+  \begin{cases}
+   c\delta(k)_+ & (\text{$k$ は奇数}), \\
+   b\delta(k)_+ & (\text{$k$ は偶数}).
+  \end{cases}
+  \tag{$*_k$}
+ \end{equation*}
+ 実際 $k$ が奇数のときクラスター変数を定める漸化式より
+ \begin{align*}
+  \frac{N_{k+1}(x,y)N_{k-1}(x,y)}{x^{d_1(k+1)+d_1(k-1))}y^{d_2(k+1)+d_2(k-1))}}
+  &= \frac{N_k(x,y)^c+x^{cd_1(k)}y^{cd_2(k)}}{x^{cd_1(k)}y^{cd_2(k)}}
+  \\ &
+  = \frac{x^{-cd_1(k)}N_k(x,y)^c+y^{cd_2(k)}}{y^{cd_2(k)}}
+  \\ &
+  = \frac{y^{-cd_2(k)}N_k(x,y)^c+x^{cd_1(k)}}{x^{cd_1(k)}}
+ \end{align*}
+ であり, 多項式 $N_{k+1}(x,y)N_{k-1}(x,y)$ も $N_k(x,y)^c$ 
+ も $x$ でも $y$ でも割り切れないことより以下が導かれる:
+ \begin{itemize}
+  \item $d_1(k)\geqq0$, $d_2(k)\geqq0$ 
+    のとき $N_k(x,y)^c+x^{cd_1(k)}y^{cd_2(k)}$ は $x,y$ の多項式
+    で $x$ でも $y$ でも割り切れないので
+    右辺の分母は $x^{cd_1(k)}y^{cd_2(k)}$ である.
+  \item $d_1(k)<0$, $d_2(k)\geqq 0$ 
+    のとき $x^{-cd_1(k)}N_k(x,y)^c+y^{cd_2(k)}$ は $x,y$ の多項式
+    で $x$ でも $y$ でも割り切れないので
+    右辺の分母は $y^{cd_2(k)}$ である.
+  \item $d_1(k)\geqq0$, $d_2(k)<0$ 
+    のとき $y^{-cd_2(k)}N_k(x,y)^c+x^{cd_1(k)}$ は $x,y$ の多項式
+    で $x$ でも $y$ でも割り切れないので
+    右辺の分母は $x^{cd_1(k)}$ である.
+ \end{itemize}
+ 以上より $k$ が奇数のとき ($*_k$) が成立していることがわかる.
+ $k$ が偶数の場合も同様である%
+ \footnote{一般に体 $K$ 上の $0$ でない一変数有理函数 $f(x)\in K(x)$ 
+  は $f(x)=F(x)/x^a$, $a\in\Z$, $F(x)$ は $x$ で割り切れない多項式の比
+  と一意に表わされる. このとき $d(f)=a$ とおき,  $d(0)=-\infty$ と約束
+  しておく. 
+
+  任意の $f,g\in K(x)$ に対して $d(f+g)\leqq d(f)+d(g)$, 
+  $d(fg)=d(f)+d(g)$, $d(f/g)=d(f)-d(g)$ が成立する. 
+
+  さらに $f,g\in\Q(x)$ がともに非負整数係数の多項式の比になっている
+  ならば $d(f+g)=\max(d(f),d(g))$ が成立する. 
+
+  すなわち, 非負整数係数の多項式の比全体のなす semifield を
+  $\Q(x)^+$ と書き, 
+  $\Z\cup\{-\infty\}$ に加法 $\max$, 乗法 $+$ を入れてできる 
+  semifield を $\Z^{\max+}$ と表わすとき, 
+  写像 $d:\Q(x)^+\to\Z^{\max+}$ が 
+  semifield の準同型になっていることを意味している. 
+
+  これらの事実は{\bf 超離散化}の手続きの基礎になっている.}.
+
+ まず $x_1=x$, $x_2=y$ より $\delta(1)=-\alpha_1$, $\delta(2)=-\alpha_2$ 
+ であることはすぐにわかる.
+ $\delta(2)_+=0$ と($*_2$)より $\delta(3)=\alpha_1=1(\alpha_1)$ であり, 
+ ($*_3$)より $\delta(4)=c\alpha_1+\alpha_2=s_1(\alpha_2)$ である.
+ 同様に $\delta(1)_+=0$ と($*_1$)より $\delta(0)=\alpha_2=1(\alpha_2)$
+ であり, ($*_0$)より $\delta(-1)=\alpha_1+b\alpha_2=s_2(\alpha_1)$ であ る.
+ これで(2)の $k=0,1$ の場合が証明された.
+ 
+ 帰納的に(2)を証明しよう.
+ まず $k\geqq 2$ であるとし, 帰納的に
+ \begin{equation*}
+  \delta(k+1) = w_1(k-2)\alpha_{[k-1]}, \quad
+  \delta(k+2) = w_1(k-1)\alpha_{[k]}
+ \end{equation*}
+ が成立していると仮定する. 
+ 特に $\delta(k+1),\delta(k+2)$ は正値ルートである.
+ よって $k$ が奇数であるとき, 
+ ($*_{k+2}$)と $c\alpha_2=s_1(\alpha_2)-\alpha_2$ 
+ と $w_1(k-1)s_1=w_1(k)$, $w_1(k-1)=w_1(k-2)s_2$ 
+ と $s_2(\alpha_2)=-\alpha_2$ を順番に使うと, 
+ \begin{align*}
+  \delta(k+3) 
+  &= c\delta(k+2)-\delta(k+1)
+  =  cw_1(k-1)\alpha_1 - w_1(k-2)\alpha_2
+  \\ &
+  = w_1(k-1)(s_1(\alpha_2)-\alpha_2) - w_1(k-2)\alpha_2
+  \\ &
+   =w_1(k)\alpha_2 - w_1(k-2)(s_2(\alpha_2)+\alpha_2)
+   =w_1(k)\alpha_2.
+ \end{align*}
+ よって $\delta(k+3)=w_1(k)\alpha_{[k+1]}$ も成立する.
+ 同様の議論が $k$ が偶数の場合も $k$ が負の場合も成立する.
+ したがって任意の $k\in\Z$ に対して(2)が成立する.
+ \qed
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{$A^{(1)}_1$ 型クラスター変数の母函数の有限連分数表示}
+\label{sec:A(1)1}
+
+$A^{(1)}_1$ 型($b=c=2$)の場合に
+クラスター変数の母函数の有限連分数表示を求めよう. 
+ただし, Di Francesco-Kedem \cite{FK1} にしたがって
+完全に非可換な場合に拡張された $A^{(1)}_1$ 型のクラスター代数を扱う%
+\footnote{Di Francesco-Kedem  \cite{FK1} では $A^{(2)}_2$ 型 ($b=1$, $c=4$) 
+の場合の有限連分数表示も得られている.}.
+有限連分数表示の系として $A^{(1)}_1$ 型の場合の正値 Laurent 現象
+の証明が得られる.
+
+\subsection{$A^{(1)}_1$ 型クラスター変数の母函数}
+
+この節では $\F$ は変数 $x,y$ で生成された非可換な体であるとし, 
+$yx=xy$ と仮定しない. $y^{-1}$ と $x$ の交換子を $C$ と表わす%
+\footnote{\cite{FK1} では $C$ をぴったり $x,y$ の交換子にするため
+にこのノートの $x$ を $yxy^{-1}$ に置き換えている. 
+$C$ をぴったり交換子で表現する必然性はないので
+このノートではこのように $C$ を定義した.}:
+\begin{equation*}
+ C = y^{-1}xyx^{-1}
+ \quad\text{すなわち}\quad
+ yCx = xy.
+\end{equation*}
+可換な場合だけに興味がある人は以下の計算で $C=1$ とおけばよい.
+その場合には計算は大幅に簡略化される%
+\footnote{初めて読む人はそうした方が良いだろう.}.
+私の興味の中心は非可換な場合(特に量子系)にあるので
+非可換な場合の結果をいきなりノートに書くことにした.
+
+非可換版クラスター変数 $x_n$ ($n\in\Z$) および $C_n$ ($n\in\Z$) を
+帰納的に次のように定める:
+\begin{equation*}
+  x_0=x, \quad x_1=y, \qquad
+  x_{n+1} C_n x_{n-1} = 1 + x_n^2, \qquad
+  x_n C_n x_{n-1} = x_{n-1} x_n.
+\end{equation*}
+実は $C_n$ は $n$ によらず $C_n=C_1=C$ となることが容易にわかる
+(\lemmaref{lemma:C}).
+よって上の定義は次と同値である:
+\begin{equation*}
+  x_0=x, \quad x_1=y, \qquad
+  x_{n+1} C x_{n-1} = 1 + x_n^2, \qquad
+  C = y^{-1}xyx^{-1}.
+\end{equation*}
+$C=1$ の可換な場合に
+この漸化式は可換な $A^{(1)}_1$ 型クラスター代数
+のクラスター変数を定める漸化式に等しい.
+$C=q\ne 1$ が中心元で $x_0x_1=qx_1x_0$ すなわち $xy=qyx$ の場合に
+上の漸化式は量子 $A^{(1)}_1$ 型クラスター代数
+のクラスター変数を定める漸化式になる%
+\footnote{量子クラスター代数の一般論については 
+Berenstein-Zelevinsky \cite{BZ} を参照せよ.}.
+
+クラスター変数の母函数 $F(t)\in\F[[t]]$ を次のように定める:
+\begin{equation*}
+ F(t) = \sum_{n=0}^\infty x_n t^n.
+\end{equation*}
+これは $n\geqq 0$ に対する $x_n$ のみを生成する母函数であるが, 
+そのような $x_n$ だけを調べれば十分である.
+その理由は以下の通り. 
+まず $x,y$ で生成される非可換体 $\F$ の
+反自己同型 $f\mapsto f^*$ を $x^*=y$, $y^*=x$ によって定める. 
+このとき $C^*=(y^{-1}xyx^{-1})^*=C$ 
+なので, $x_n$ を定める漸化式 $x_{n+1}Cx_{n-1}=1+x_n^2$ 
+は $x_{n-1}^*Cx_{n+1}^*=1+(x_n^*)^2$ と同値になる.
+これより $x_{1-n}=x_n^*$ となることがわかる.
+
+\subsection{母函数の有限連分数表示と正値 Laurent 現象}
+
+\begin{theorem}[クラスター変数の母函数の有限連分数表示 \cite{FK1}]
+\label{theorem:F(t)}
+ $A^{(1)}_1$ 型のクラスター変数の母函数 $F(t)$ は次の
+ 有限連分数表示を持つ:
+ \begin{equation*}
+  F(t)
+  =\left(1-\left(1-(1-tf_3)^{-1}tf_2\right)^{-1}tf_1\right)^{-1}f_0
+  =\dfrac{1}{1-\dfrac{1}{1-\dfrac{1}{1-tf_3}tf_2}tf_1}f_0
+ \end{equation*}
+ ここで $f_0 = x_0       = x, \quad$
+ \begin{equation*}
+  f_1 = x_1x_0^{-1}      = yx^{-1}, \quad 
+  f_2 = x_1^{-1}x_0^{-1} = y^{-1}x^{-1}, \quad 
+  f_3 = x_1^{-1}x_0      = y^{-1}x.
+ \end{equation*}
+ この連分数表示の係数 $f_0,f_1,f_2,f_3$ が $x,y$ の Laurent 単公式%
+ \footnote{$x$, $y$ から生成される非可換体 $\F$ に
+ おいて $x^{\pm1}$, $y^{\pm1}$ を任意の順序で掛け合わせたものを
+ Laurent 単公式と呼ぶ.}
+ になっていることに注意せよ.
+ \qed
+\end{theorem}
+
+任意の $f\in t\F[[t]]$ に対して $(1-f)^{-1}=1+f+f^2+f^3+\cdots$ となる
+ことを使えば上の定理から次の系がただちに得られる:
+
+\begin{cor}[正値 Laurent 現象]
+ $A^{(1)}_1$ 型のすべてのクラスター変数 $x_n$ は $x$, $y$ の 
+ 引き算無し Laurent 多項式%
+ \footnote{$x$, $y$ から生成される非可換体 $\F$ に
+ おいて $x^{\pm1}$, $y^{\pm1}$ から生成される部分環
+ を $x^{\pm1},y^{\pm1}$ で生成される非可換 Laurent 多項式環と呼び, 
+ 非可換 Laurent 多項式環の元を Laurent 多項式と呼ぶ.
+ さらに $x^{\pm1},y^{\pm1}$ から足し算と掛け算のみを用い, 
+ 引き算を用いずに作られる Laurent 多項式を引き算無し Laurent 多項式と呼ぶ.
+ }
+ になっている. 
+ すなわちすべての $x_n$ を $x^{\pm1}$, $y^{\pm1}$ と加法と
+ 乗法だけを用いて表わすことができる.
+ \qed
+\end{cor}
+
+\subsection{有限連分数表示の証明}
+
+証明の方針は
+離散的な時間発展 $x_n\mapsto x_{n+1}$ に関する二つの保存量を見付け, 
+保存量を係数とするクラスター変数の線形漸化式を構成することである.
+次の補題によって線形漸化式から有限連分数表示がただちに得られることがわかる.
+
+\begin{lemma}[線形漸化式と有限連分数表示]
+\label{lemma:AB}
+ $x_n$ が線形漸化式
+ \begin{equation*}
+   x_n-Ax_{n-1}+Bx_{n-2}=0 \quad (n\geqq 2)
+ \end{equation*}
+ を満たすとき,
+ \begin{equation*}
+  a_0 = x_0, \quad
+  a_1 = x_1x_0^{-1}, \quad
+  a_1+a_2+a_3 = A, \quad
+  a_3 = Bx_0x_1^{-1}
+ \end{equation*}
+ と $a_i$ を定めると, 
+ $x_n$ の母函数 $F(t)=\sum_{n\geqq 0} x_n t^n$ は次の有限連分数表示を持つ:
+ \begin{equation*}
+  F(t) 
+  = \left(1-\left(1-(1-ta_3)^{-1}ta_2\right)^{-1}ta_1\right)^{-1}a_0.
+ \end{equation*}
+\end{lemma}
+
+\begin{proof}
+ $x_n$ に関する線形漸化式より
+ \begin{equation*}
+  (1-tA+t^2B)F(t) 
+   = \sum_{n=0}^\infty t^n       x_n
+   - \sum_{n=1}^\infty t^{n-1} A x_{n-1}
+   + \sum_{n=2}^\infty t^{n-2} B x_{n-2}
+   = x_0 - t(Ax_0-x_1)
+ \end{equation*}
+ となるので母函数 $F(t)$ は次のように表わされる:
+ \begin{equation*}
+   F(t) = (1-tA+t^2B)^{-1}(x_0-t(Ax_0-x_1)).
+ \end{equation*}
+ よって普遍的な公式 $(a+b)^{-1}a=1+a^{-1}b$ と $a_i$ の定義より
+ \begin{align*}
+  F(t)
+  &= (1-tA+t^2B)^{-1}(x_0 - t(Ax_0-x_1))
+  \\ &
+  = \left(1-t(a_2+a_3)-(1-ta_3)ta_1\right)^{-1}(1-t(a_2+a_3))a_0
+  \\ &
+  = \left(1-\left(1-t(a_2+a_3)\right)^{-1}(1-ta_3)ta_1\right)^{-1}a_0
+  \\ &
+  = \left(1-\left(1-ta_3-ta_2\right)^{-1}(1-ta_3)ta_1\right)^{-1}a_0
+  \\ &
+  = \left(1-\left(1-(1-ta_3)^{-1}ta_2\right)^{-1}ta_1\right)^{-1}a_0.
+ \end{align*}
+ これで上の補題が証明された.
+ \qed
+\end{proof}
+
+\begin{lemma}[第一保存則]
+\label{lemma:C}
+ $C_n$ は $n$ によらず $C_n=C_1=x_1^{-1}x_0x_1x_0^{-1}=C$.
+\end{lemma}
+
+\begin{proof}
+  $n=1$ のとき
+ \begin{equation*}
+  C_1=x_1^{-1}x_0x_1x_0^{-1}=y^{-1}xyx^{-1}=C
+ \end{equation*}
+ である. $C_{n+1}=C_n$ を示そう.
+ クラスター変数を定める漸化式の右辺は
+ \begin{equation*}
+   x_{n+1}C_nx_{n-1}
+   =x_{n+1} x_n^{-1} x_{n-1} x_n x_{n-1}^{-1} x_{n-1}
+   =x_{n+1} x_n^{-1} x_{n-1} x_n
+ \end{equation*}
+ であるから $x_{n+1}$ を次のように表わせる:
+ \begin{equation*}
+   x_{n+1} = f_n(x_n)x_{n-1}^{-1}x_n, \qquad
+   f_n(x_n) = (1+x_n^2)x_n^{-1}.
+ \end{equation*}
+ これを $C_{n+1}$ の中の $x_{n+1}$ に代入すると
+ \begin{align*}
+  C_{n+1} 
+  & 
+  = x_{n+1}^{-1} x_n x_{n+1} x_n^{-1}
+  \\ &
+  = x_n^{-1} x_{n-1} f_n(x_n)^{-1} x_n f_n(x_n)x_{n-1}^{-1}x_n x_n^{-1}
+  \\ &
+  = x_n^{-1} x_{n-1} x_n x_{n-1}^{-1}
+  = C_n.
+ \end{align*}
+ これで $C_n=C$ が示された. 
+ \qed
+\end{proof}
+
+\begin{lemma}[第二保存則]
+\label{lemma:K}
+ $K$ と $K_n$ ($n=0,1,2,\dots$) を次のように定める:
+ \begin{equation*}
+   K = f_1+f_2+f_3, \qquad
+   K_n = x_{n+1}^{-1}x_n^{-1} + x_{n+1}x_n^{-1} + x_{n+1}^{-1}x_n.
+ \end{equation*}
+ ただし $f_i$ たちは $f_1 = x_1x_0^{-1}$,
+ $f_2 = x_1^{-1}x_0^{-1}$, $f_3 = x_1^{-1}x_0$ と定義されたのであった.
+ このとき $K_n$ は $n$ によらず, $n=1,2,3,\ldots$ に対して
+ \begin{equation*}
+  K_n = (x_{n+1}+Cx_{n-1})x_n^{-1} = x_n^{-1}(x_{n+1} C + x_{n-1}) = K.
+ \end{equation*}
+ したがって
+ \begin{equation*}
+  x_{n+1} - K x_n + C x_{n-1} = 0, \quad
+  x_{n+1} C - x_n K + x_{n-1} = 0.
+ \end{equation*}
+\end{lemma}
+
+\begin{proof}
+ まず $n=0$ のとき
+ \begin{align*}
+  K_0
+  &= x_1x_0^{-1} + x_1^{-1}x_0^{-1} + x_1^{-1}x_0
+  = f_1 + f_2 + f_3 = K.
+ \end{align*}
+
+ 次に $K_n = (x_{n+1}+Cx_{n-1})x_n^{-1}$ を示そう.
+ $x_{n+1}^{-1}(1+x_n^2)=Cx_{n-1}$ を使うと
+ \begin{align*}
+  K_n 
+  &= x_{n+1}x_n^{-1} + x_{n+1}^{-1}x_n^{-1} + x_{n+1}^{-1}x_n
+  = x_{n+1}x_n^{-1} + x_{n+1}^{-1}(1+x_n^2)x_n^{-1}
+  \\ &
+  = x_{n+1}x_n^{-1} + C x_{n-1}x_n^{-1} 
+  = (C x_{n-1} + x_{n+1})x_n^{-1}.
+ \end{align*}
+
+ さらに $K_n = x_n^{-1}(x_{n+1} C + x_{n-1})$ を示そう.
+ $K_n$ の中の $C$ に $C_n=x_n^{-1} x_{n-1} x_n x_{n-1}^{-1}$ を代入し, 
+ $x_{n+1}^{-1} x_n x_{n+1} x_n^{-1}=C_{n+1}=C$ を使うと
+ \begin{align*}
+  K_n 
+  &= x_{n+1}x_n^{-1} + C x_{n-1}x_n^{-1}
+  =  x_{n+1}x_n^{-1} + x_n^{-1} x_{n-1} x_n x_{n-1}^{-1} x_{n-1}x_n^{-1}
+  \\ &
+  =  x_{n+1}x_n^{-1} + x_n^{-1} x_{n-1}
+  =  x_n^{-1}x_{n+1}x_{n+1}^{-1} x_n x_{n+1} x_n^{-1} + x_n^{-1} x_{n-1}
+  \\ &
+  = x_n^{-1}x_{n+1} C + x_n^{-1} x_{n-1}
+  = x_n^{-1}(x_{n+1} C + x_{n-1}).
+ \end{align*}
+
+ よって $K_{n+1} = x_{n+1}^{-1}(x_{n+2} C + x_n)$ である.
+ これに $x_{n+2}C = (1+x_{n+1}^2)x_n^{-1}$ を適用すると, 
+ \begin{align*}
+  K_{n+1}
+  &= x_{n+1}^{-1} x_{n+2} C + x_{n+1}^{-1} x_n
+  = x_{n+1}^{-1}(1+x_{n+1}^2)x_n^{-1} + x_{n+1}^{-1} x_n
+  \\ &
+  = x_{n+1}^{-1}x_n^{-1} + x_{n+1}x_n^{-1} + x_{n+1}^{-1}x_n
+  = K_n.
+ \end{align*}
+ これで $K_n$ が $n$ によらないこともわかった. 
+ \qed
+\end{proof}
+
+\begin{proof}[\theoremref{theorem:F(t)}の証明]
+ \lemmaref{lemma:K}より線形漸化式
+ \begin{equation*}
+  x_n-Kx_{n-1}+Cx_{n-2}=0 \quad (n\geqq2)
+ \end{equation*}
+ が得られる. これに\lemmaref{lemma:AB}を適用しよう.
+ $A=K$, $B=C$ のとき
+ \begin{align*}
+  &
+  a_0 = x_0 = f_0,
+  \\ &
+  a_1 = x_1x_0^{-1} = f_1,
+  \\ &
+  a_3 = Cx_0x_1^{-1} = x_1^{-1}x_0x_1x_0^{-1}x_0x_1^{-1} = x_1^{-1}x_0 = f_3,
+  \\ &
+  a_2 = K - a_1 - a_3
+      = x_1x_0^{-1} + x_1^{-1}x_0^{-1} + x_1^{-1}x_0 - x_1x_0^{-1}-x_1^{-1}x_0
+      = x_1^{-1}x_0^{-1} = f_2.
+ \end{align*}
+ したがって\lemmaref{lemma:AB}から\theoremref{theorem:F(t)}が得られる.
+ \qed
+% これを母函数 $F(t)=\sum_{n=0}^\infty x_n t^n$ に関する
+% 線形方程式に書き直そう:
+% \begin{align*}
+%  &
+%  (1-Kt+Ct^2)F(t)
+%  = 
+%    \sum_{n=0}^{\infty} x_n t^n 
+%  - \sum_{n=1}^\infty Kx_{n-1}t^n 
+%  + \sum_{n=2}^\infty Cx_{n-2}t^n
+%  \\ & \qquad
+%  = x_0 + (x_1 - Kx_0)t + \sum_{n=2}^\infty(x_n-Kx_{n-1}+Cx_{n-2}t^n
+%  = x_0 + (x_1 - Kx_0)t.
+% \end{align*}
+% よって $K=f_1+f_2+f_3$, $C=f_3f_1$, $x_0=f_0$, $x_1=f_1f_0$, 
+% と $(A+B)^{-1}A=(1+A^{-1}B)^{-1}$ を使うと, 
+% \begin{align*}
+%  F(t) 
+%  &=(1-Kt+Ct^2)^{-1}(x_0 + (x_1 - Kx_0)t)
+%  \\ &
+%  = (1-t(f_1+f_2+f_3)+t^2f_3f_1)^{-1}(f_0 + t(f_1f_0-(f_1+f_2+f_3)f_0))
+%  \\ &
+%  = (1-t(f_1+f_2+f_3)+t^2f_3f_1)^{-1}(1 - t(f_2+f_3))f_0
+%  \\ &
+%  = (1-t(f_2+f_3)-(1-tf_3)tf_1)^{-1}(1-t(f_2+f_3))f_0
+%  \\ &
+%  = \left(1-(1-t(f_2+f_3))^{-1}(1-tf_3)tf_1\right)^{-1}f_0
+%  \\ &
+%  = \left(1-(1-tf_3-tf_2))^{-1}(1-tf_3)tf_1\right)^{-1}f_0
+%  \\ &
+%  = \left(1-\left(1-(1-tf_3)^{-1}tf_2)\right)^{-1}tf_1\right)^{-1}f_0.
+% \end{align*}
+% これで示すべきことが示された. \qed
+\end{proof}
+
+\subsection{Caldero-Chapoton 公式との関係}
+
+以上の非可換な場合の結果と証明はすべて Di Francesco-Kedem \cite{FK1} による. 
+ランク2もしくは $A^{(1)}_1$ 型の可換な場合に関する詳細な結果について
+は \cite{CZ}, \cite{MP}, \cite{SZ} を参照せよ. 
+$A^{(1)}_1$ 型の量子クラスター代数に関する詳細な結果について
+は \cite{L}, \cite{R} を参照せよ.
+
+通常の可換な場合にはクラスター変数を Laurent 多項式展開表示を
+箙%
+\footnote{ちなみに草場公邦著『行列特論』\cite{Kusaba} 
+(おすすめの非常に面白い本) の p.~75 で ``quiver'' は「矢筒」と訳されている. 
+さらに同書の次の次のページでは矢筒に見えないものまで矢筒と呼ぶことを
+遠慮して「有効グラフ」と呼ぶことにしている. 
+
+確かに数学用語として「矢筒」は使い難い感じがする. 
+「矢筒」と言われるとどうしても「矢が筒に入っている様子」を思い浮かべてしまう.
+それに対して「箙」という言葉は日常的には使われる機会がほとんどないので, 
+「箙」と言われたときに「矢が筒に入っている様子」を思い浮かべずにすむ.
+
+現在の日本数学界では ``quiver'' を「箙」(えびら) と訳す習慣が定着して
+いるようだ. 数学用語としての「箙」には独特の意味が
+込められるようになって来ていると思う.
+中島啓氏は東北大学にいたときに ``quiver'' を「箙」と訳して
+とてもうれしそうにしていた.}
+(えびら, quiver) の言葉を用いて書き下す公式がある.
+Caldero-Chapoton \cite{CC} は有限型の場合を証明し, 
+Caldero-Keller \cite{CK2} はそれを ``acyclic な場合''に一般化した.
+Caldero-Zelevinsky \cite{CZ} はその結果を用いて $A^{(1)}_1$ 型
+のクラスター変数の Laurent 多項式表示を二項係数を用いて書き下す
+明示公式を示している.
+さらに Rupel \cite{R} はその明示公式
+を $A^{(1)}_1$ 型量子クラスター代数の場合に拡張している.
+さらに Lampe \cite{L} は箙を用いてランクが2の一般の量子クラスター
+での明示公式を証明し, 
+``quantum analogue of the Caldero-Chapoton formula for rank-2 cases''
+とでも呼ぶべき結果を得ている.
+その結果は $A^{(1)}_1$ 型の量子クラスター代数の場合をもちろん含んでいる.
+
+このノートで詳しく紹介した Di Francesco-Kedem \cite{FK1} の結果
+は $A^{(1)}_1$ 型の場合のクラスター変数の明示公式の一般化になっている.
+(彼らは実際には $A^{(2)}_2$ 型の場合の結果も得ている.)
+Di Francesco-Kedem \cite{FK1} の結果の面白いところは完全に非可換な
+設定であってもクラスター代数がうまく定義できて, 
+しかもクラスター変数を初期変数で表わす明示公式が母函数レベルで
+非常にきれいな形で求まっていることである%
+\footnote{ランク2の場合に限れば完全に非可換な設定であっても
+Laurent現象を簡単にかつ一般的に証明できる(\cite{BR}).
+しかしLaurent現象だけだとクラスター代数の構造に関する
+詳しい情報は得られない.}
+
+通常の可換な場合と量子化された $q$ 可換な場合には
+箙を用いてクラスター変数の明示公式を理解することができている.
+Di Francesco-Kedem \cite{FK1} が扱った完全に非可換な場合にも
+箙を用いた解釈はあるだろうか?
+もしもあるとすれば箙によるクラスター代数の最も普遍的な解釈と
+いうことになように思われるがどうだろうか?
+
+そもそも実際には「完全に非可換な設定でランクの高い
+クラスター代数を一般的にどのように定義すればよいのか」
+という基本的な問題が残っているように思われる.
+Di Francesco-Kedem の別の論文 \cite{FK2} と 
+Di Francesco 単著の論文 \cite{F} も
+完全に非可換な設定の場合を扱っているので参考になるかもしれない.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{}
+
+\bibitem[CA1]{CA1}
+Fomin, Sergey and Zelevinsky, Andrei.
+Cluster algebras I: Foundations.
+J.\ Amer.\ Math.\ Soc.\ 15  (2002),  no.~2, 497--529 (electronic). 
+{\tt arXiv:math/0104151}
+
+\bibitem[CA2]{CA2}
+Fomin, Sergey and Zelevinsky, Andrei.
+Cluster algebras II: Finite type classification.
+Invent.\ Math.\ 154 (2003), no.~1, 63--121.
+{\tt arXiv:math/0208229}
+
+\bibitem[CA3]{CA3}
+Berenstein, Arkady, Fomin, Sergey, and Zelevinsky, Andrei.
+Cluster algebras III: Upper bounds and double Bruhat cells.
+Duke Math.\ J.\ 126 (2005), no.~1, 1--52.
+{\tt arXiv:math/0305434}
+
+\bibitem[CA4]{CA4}
+Fomin, Sergey and Zelevinsky, Andrei.
+Cluster algebras IV: Coefficients.
+Compos. Math.\ 143 (2007), no.~1, 112--164.
+{\tt arXiv:math/0602259}
+
+\bibitem[BR]{BR}
+Berenstein, Arkady and Retakh, Vladimir.
+A short proof of Kontsevich cluster conjecture.
+Preprint 2010.
+{\tt ArXiv:1011.0245}
+
+\bibitem[BZ]{BZ}
+Berenstein, Arkady and Zelevinsky, Andrei.
+Quantum cluster algebras.
+Adv.\ Math.\ 195 (2005), no.~2, 405--455.
+{\tt arXiv:math/0404446}
+
+\bibitem[CC]{CC}
+Caldero, Philippe and Chapoton, Fr\'ed\'eric. 
+Cluster algebras as Hall algebras of quiver representations.  
+Comment.\ Math.\ Helv.\  81  (2006),  no.~3, 595--616. 
+{\tt arXiv:math/0410187}
+
+\bibitem[CK1]{CK1}
+Caldero, Philippe and Keller, Bernhard.
+From triangulated categories to cluster algebras.
+Invent. Math.  172  (2008),  no. 1, 169--211. 
+{\tt arXiv:math/0506018}
+
+\bibitem[CK2]{CK2}
+Caldero, Philippe and Keller, Bernhard.
+From triangulated categories to cluster algebras II.
+Ann.\ Sci.\ \'Ecole Norm.\ Sup.\ (4)  39  (2006),  no.~6, 983--1009. 
+{\tt arXiv:math/0510251}
+
+\bibitem[CZ]{CZ}
+Caldero, Philippe and Zelevinsky, Andrei.
+Laurent expansions in cluster algebras via quiver representations.
+Mosc.\ Math.\ J.\  6  (2006),  no.~3, 411--429, 587.
+{\tt arXiv:math/0604054}
+
+\bibitem[F]{F}
+Di Francesco, Philippe.
+Discrete integrable systems, positivity and continued fraction rearrangements.
+Preprint 2010.
+{\tt arXiv:1009.1911}
+
+\bibitem[FK1]{FK1}
+Di Francesco, Philippe and Kedem, Rinat.
+Discrete non-commutative integrability: 
+The proof of a conjecture by M.~Kontsevich.
+Preprint 2009.
+{\tt arXiv:0909.0615}
+
+\bibitem[FK2]{FK2}
+Di Francesco, Philippe and Kedem, Rinat.
+Noncommutative integrability, paths and quasi-determinants.
+Preprint 2010.
+{\tt arXiv:1006.4774}
+
+\bibitem[FM]{FM}
+Fordy, Allan P.\ and Marsh, Robert J.
+Cluster mutation-periodic quivers and associated Laurent sequences.
+{\tt arXiv:0904.0200}
+
+\bibitem[FR]{FR}
+Fomin, Sergey and Reading, Nathan.
+Root systems and generalized associahedra.
+Geometric combinatorics,  63--131,
+IAS/Park City Math.\ Ser., 13, Amer.\ Math.\ Soc., Providence, RI, 2007. 
+{\tt arXiv:math/0505518}
+
+\bibitem[FZ1]{FZ-Laurent}
+Fomin, Sergey and Zelevinsky, Andrei.
+The Laurent phenomenon.
+Adv.\ in Appl.\ Math.\ 28 (2002), no.~2, 119--144.
+{\tt arXiv:math/0104241}
+
+\bibitem[FZ2]{FZ-Y-Sys}
+Fomin, Sergey and Zelevinsky, Andrei. 
+$Y$-systems and generalized associahedra.  
+Ann.\ of Math.\ (2)  158  (2003),  no.~3, 977--1018. 
+{\tt arXiv:hep-th/0111053}
+
+\bibitem[K]{Kusaba}
+草場公邦, 行列特論, 基礎数学選書21, 裳華房, 1979, pp.~226.
+
+\bibitem[L]{L}
+Lampe, Philipp.
+A quantum cluster algebra of Kronecker type and the dual canonical basis.
+Preprint 2010.
+{\tt arXiv:1002.2762}
+
+\bibitem[MP]{MP}
+Musiker, Gregg and Propp, James.
+Combinatorial interpretations for rank-two cluster algebras of affine type. 
+Electron.\ J.\ Combin.\ 14 (2007), no.~1, Research Paper 15, 23 pp.
+{\tt arXiv:0602408}
+
+\bibitem[N]{N}
+中島啓.
+ディンキン図形をめぐって --- 数学におけるプラトン哲学.
+数学入門公開講座, 2009年(第31回).
+\\ {予稿: \tt http://www.kurims.kyoto-u.ac.jp/ja/special-01.back.html}
+\\ {テキスト: \tt http://www.kurims.kyoto-u.ac.jp/\textasciitilde kenkyubu/kokai-koza/nakajima.pdf}
+
+\bibitem[R]{R}
+Rupel, Dylan.
+On Quantum Analogue of The Caldero-Chapoton Formula.
+Preprint 2010.
+{\tt arXiv:1003.2652}
+
+\bibitem[SZ]{SZ}
+Sherman, Paul and Zelevinsky, Andrei.
+Positivity and canonical bases in rank 2 cluster algebras of finite and affine types.
+Mosc.\ Math.\ J.\ 4 (2004), no.~4, 947--974, 982.
+{\tt arXiv:math/0307082}
+
+\bibitem[U]{U}
+Usnich, Alexandr.
+Non-commutative Laurent phenomenon for two variables.
+Preprint 2010.
+{\tt arXiv:math/1006.1211}
+
+\end{thebibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
